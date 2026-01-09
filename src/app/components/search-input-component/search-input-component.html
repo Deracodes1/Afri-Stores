@@ -7,6 +7,6 @@
     type="search"
     placeholder="Search products..."
     [(ngModel)]="searchedProduct"
-    (input)="sentOutValue.emit(searchedProduct)"
+    (input)="onSearchInput()"
   />
 </div>

@@ -2,11 +2,12 @@
   (click)="sendClickedProduct()"
   [class]="
     isSelectedState()
-      ? 'bg-amber-50 border-2 border-amber-500 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden'
-      : 'bg-white border-2 border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden'
+      ? 'bg-amber-50 border-2 cursor-pointer border-amber-500 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden'
+      : 'bg-white border-2 cursor-pointer border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden'
   "
 >
   <img
+    loading="lazy"
     [src]="product().imageUrl"
     [alt]="product().name"
     class="w-full h-48 object-cover transition-transform duration-300 ease-in-out hover:scale-110"
@@ -21,11 +22,18 @@
       <button
         [class]="
           isSelectedState()
-            ? 'bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200'
-            : 'bg-amber-700 text-white px-4 py-2 rounded-lg hover:bg-amber-800 transition-colors duration-200'
+            ? 'bg-red-600 text-white px-4 py-2 flex items-center rounded-lg hover:bg-red-700 transition-colors duration-200'
+            : 'bg-amber-700 text-white px-4 py-2 flex items-center rounded-lg hover:bg-amber-800 transition-colors duration-200'
         "
       >
         {{ isSelectedState() ? 'Remove' : 'Add to Cart' }}
+        <i
+          [class]="
+            isSelectedState()
+              ? 'fa-solid fa-minus text-2xl text-gray-300 ml-2'
+              : 'fa-solid fa-plus text-2xl text-gray-300 ml-2'
+          "
+        ></i>
       </button>
     </div>
   </div>

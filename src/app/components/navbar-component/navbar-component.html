@@ -2,34 +2,127 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16 md:h-20">
       <!-- Logo -->
-      <h1 class="font-extrabold text-2xl md:text-3xl text-amber-700 shrink-0">
+      <h1
+        class="font-extrabold text-2xl md:text-3xl text-amber-700 shrink-0 cursor-pointer"
+        routerLink="home"
+      >
         {{ title() }}
       </h1>
 
-      <!-- Search Bar - Hidden on mobile, visible on tablet+ -->
-      <div class="hidden md:flex relative flex-1 max-w-md mx-4 lg:mx-8">
-        <app-search-input-component
-          (sentOutValue)="sendSearchTerm($event)"
-        ></app-search-input-component>
-      </div>
-      <!-- Cart Icon -->
-      <div
-        class="relative inline-block p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 cursor-pointer shrink-0"
-      >
-        <i class="fa-solid fa-cart-shopping text-3xl md:text-4xl text-amber-700"></i>
-        <span
-          class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 md:h-6 md:w-6 flex items-center justify-center"
+      <!-- Navigation Links - Hidden on mobile, visible on tablet+ -->
+      <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+        <a
+          routerLink="home"
+          routerLinkActive="text-amber-700 font-semibold"
+          class="text-gray-700 hover:text-amber-700 transition-colors duration-200 cursor-pointer text-sm lg:text-base"
         >
-          {{ NumOfSelectedProducts() }}
-        </span>
+          Home
+        </a>
+        <a
+          routerLink="shop"
+          routerLinkActive="text-amber-700 font-semibold"
+          class="text-gray-700 hover:text-amber-700 transition-colors duration-200 cursor-pointer text-sm lg:text-base"
+        >
+          Shop
+        </a>
+        <a
+          routerLink="collections"
+          routerLinkActive="text-amber-700 font-semibold"
+          class="text-gray-700 hover:text-amber-700 transition-colors duration-200 cursor-pointer text-sm lg:text-base"
+        >
+          Collections
+        </a>
+      </nav>
+
+      <!-- Search Bar - Hidden on mobile and tablet, visible on desktop -->
+      <div class="hidden lg:flex relative flex-1 max-w-md mx-8">
+        <app-search-input-component></app-search-input-component>
+      </div>
+
+      <!-- Right Icons Group -->
+      <div class="flex items-center space-x-0.5 md:space-x-3 shrink-0">
+        <!-- Favorites/Wishlist Icon -->
+        <button
+          routerLink="favorites"
+          class="relative p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer duration-200"
+        >
+          <i
+            class="fa-solid fa-heart text-xl md:text-2xl text-gray-700 hover:text-red-500 transition-colors"
+          ></i>
+        </button>
+
+        <!-- User/Account Icon -->
+        <button
+          [routerLink]="isLoggedIn() ? '/account' : '/signin'"
+          class="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+        >
+          <i class="fa-solid fa-user text-xl md:text-2xl text-gray-700 cursor-pointer"></i>
+        </button>
+        <!-- Cart Icon with Badge -->
+        <button
+          routerLink="cart"
+          class="relative p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+        >
+          <i
+            class="fa-solid fa-cart-shopping text-xl md:text-2xl text-amber-700 cursor-pointer"
+          ></i>
+          @if (cartCount() > 0) {
+          <span
+            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+          >
+            {{ cartCount() }}
+          </span>
+          }
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button
+          (click)="toggleMobileMenu()"
+          class="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+        >
+          @if (mobileMenuOpen()) {
+          <i class="fa-solid fa-xmark text-2xl text-gray-700"></i>
+          } @else {
+          <i class="fa-solid fa-bars text-2xl text-gray-700"></i>
+          }
+        </button>
       </div>
     </div>
 
-    <!-- Mobile Search Bar -->
-    <div class="md:hidden pb-3">
-      <app-search-input-component
-        (sentOutValue)="sendSearchTerm($event)"
-      ></app-search-input-component>
+    <!-- Search Bar Row - Mobile & Tablet -->
+    <div class="lg:hidden pb-3 pt-2">
+      <app-search-input-component></app-search-input-component>
     </div>
+
+    <!-- Mobile Menu Dropdown -->
+    @if (mobileMenuOpen()) {
+    <div class="md:hidden border-t border-gray-200 py-3 space-y-2">
+      <a
+        routerLink="home"
+        routerLinkActive="text-amber-700 font-semibold bg-amber-50"
+        (click)="closeMobileMenu()"
+        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+      >
+        Home
+      </a>
+
+      <a
+        routerLink="shop"
+        routerLinkActive="text-amber-700 font-semibold bg-amber-50"
+        (click)="closeMobileMenu()"
+        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+      >
+        Shop
+      </a>
+      <a
+        routerLink="collections"
+        routerLinkActive="text-amber-700 font-semibold bg-amber-50"
+        (click)="closeMobileMenu()"
+        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+      >
+        Collections
+      </a>
+    </div>
+    }
   </div>
 </nav>

@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { Product } from '../../products.model';
 @Component({
   selector: 'app-product-card-component',

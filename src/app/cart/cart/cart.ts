@@ -1,0 +1,85 @@
+import { Component, inject, signal } from '@angular/core';
+import { ProductsService } from '../../services/products';
+import { Product } from '../../products.model';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+@Component({
+  selector: 'app-cart',
+  templateUrl: './cart.html',
+  imports: [FormsModule],
+  styleUrls: ['./cart.css'],
+})
+export class Cart {
+  private productsService = inject(ProductsService);
+  private router = inject(Router);
+
+  cartItems = signal<Product[]>([]);
+  promoCodeInput = signal<string>('');
+  promoMessage = signal<string>('');
+  promoSuccess = signal<boolean>(false);
+
+  // Computed values from service
+  subtotal = this.productsService.cartSubtotal;
+  tax = this.productsService.cartTax;
+  total = this.productsService.cartTotal;
+  promoDiscount = signal<number>(0);
+
+  ngOnInit() {
+    this.loadCart();
+  }
+
+  loadCart() {
+    this.cartItems.set(this.productsService.getSelectedProducts());
+    this.promoDiscount.set(this.productsService.getPromoDiscount());
+  }
+
+  increaseQuantity(productId: number) {
+    const product = this.cartItems().find((p) => p.id === productId);
+    if (product) {
+      const newQuantity = (product.quantity || 1) + 1;
+      this.productsService.updateQuantity(productId, newQuantity);
+      this.loadCart();
+    }
+  }
+
+  decreaseQuantity(productId: number) {
+    const product = this.cartItems().find((p) => p.id === productId);
+    if (product && (product.quantity || 1) > 1) {
+      const newQuantity = (product.quantity || 1) - 1;
+      this.productsService.updateQuantity(productId, newQuantity);
+      this.loadCart();
+    }
+  }
+
+  removeItem(productId: number) {
+    this.productsService.removeFromCart(productId);
+    this.loadCart();
+  }
+
+  applyPromoCode() {
+    const code = this.promoCodeInput();
+    const result = this.productsService.applyPromoCode(code);
+    this.promoMessage.set(result.message);
+    this.promoSuccess.set(result.success);
+    this.promoDiscount.set(this.productsService.getPromoDiscount());
+
+    // Clear message after 3 seconds
+    setTimeout(() => {
+      this.promoMessage.set('');
+    }, 3000);
+  }
+
+  continueShopping() {
+    this.router.navigate(['/home']);
+  }
+
+  proceedToCheckout() {
+    // Add checkout logic here
+    console.log('Proceeding to checkout with items:', this.cartItems());
+    alert('Checkout functionality coming soon!');
+  }
+
+  getItemTotal(product: Product): number {
+    return product.price * (product.quantity || 1);
+  }
+}
