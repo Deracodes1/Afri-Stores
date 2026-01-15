@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Product } from '../products.model';
+import { Product } from '../models/products.model';
 import { ProductsService } from '../services/products';
 import { ProductCardComponent } from '../components/product-card-component/product-card-component';
 import { catchError } from 'rxjs';

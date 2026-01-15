@@ -1,5 +1,5 @@
 import { Component, inject, input, output } from '@angular/core';
-import { Product } from '../../products.model';
+import { Product } from '../../models/products.model';
 @Component({
   selector: 'app-product-card-component',
   imports: [],

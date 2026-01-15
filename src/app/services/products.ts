@@ -1,5 +1,5 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { Product } from '../products.model';
+import { Product } from '../models/products.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
