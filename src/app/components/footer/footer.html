@@ -1,5 +1,110 @@
-<footer class="footer m-8">
-  <p class="sm:text-2xl text-center text-amber-500 pb-2 font-medium">
-    &copy;{{ currentYear }} {{ title() }}. All rights reserved.
-  </p>
+<footer class="bg-gray-900 text-gray-300">
+  <!-- Main Footer Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Column 1: About -->
+      <div>
+        <div class="flex items-center space-x-2 mb-4">
+          <i class="fa-solid fa-store text-amber-500 text-2xl"></i>
+          <h3 class="text-white text-xl font-bold">{{ title() }}</h3>
+        </div>
+        <p class="text-sm mb-4">
+          Your trusted online marketplace for quality products. Shop with confidence and enjoy fast,
+          reliable delivery.
+        </p>
+        <div class="flex space-x-4">
+          @for (social of socialLinks; track social.name) {
+            <a
+              [href]="social.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-400 hover:text-amber-500 transition-colors text-xl"
+              [attr.aria-label]="social.name"
+            >
+              <i [class]="social.icon"></i>
+            </a>
+          }
+        </div>
+      </div>
+
+      <!-- Column 2: Shop -->
+      <div>
+        <h4 class="text-white font-semibold mb-4 text-lg">Shop</h4>
+        <ul class="space-y-2">
+          @for (link of shopLinks; track link.label) {
+            <li [routerLink]="link.route" class="text-sm hover:text-amber-500 transition-colors">
+              {{ link.label }}
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Column 3: Customer Service -->
+      <div>
+        <h4 class="text-white font-semibold mb-4 text-lg">Customer Service</h4>
+        <ul class="space-y-2">
+          @for (link of customerLinks; track link.label) {
+            <li [routerLink]="link.route" class="text-sm hover:text-amber-500 transition-colors">
+              {{ link.label }}
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Column 4: Support -->
+      <div>
+        <h4 class="text-white font-semibold mb-4 text-lg">Support</h4>
+        <ul class="space-y-2">
+          @for (link of supportLinks; track link.label) {
+            <li [routerLink]="link.route" class="text-sm hover:text-amber-500 transition-colors">
+              {{ link.label }}
+            </li>
+          }
+        </ul>
+
+        <!-- Contact Info -->
+        <div class="mt-6 space-y-2">
+          <p class="text-sm flex items-center space-x-2">
+            <i class="fa-solid fa-envelope text-amber-500"></i>
+            <span>support&#64;shopred.com</span>
+          </p>
+          <p class="text-sm flex items-center space-x-2">
+            <i class="fa-solid fa-phone text-amber-500"></i>
+            <span>+234 800 000 0000</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <!-- Copyright -->
+        <p class="text-sm text-gray-400">© {{ currentYear }} {{ title() }}. All rights reserved.</p>
+
+        <!-- Payment Methods -->
+        <div class="flex items-center space-x-4">
+          <span class="text-sm text-gray-400">We accept:</span>
+          <div class="flex space-x-3 text-2xl text-gray-400">
+            <i class="fa-brands fa-cc-visa"></i>
+            <i class="fa-brands fa-cc-mastercard"></i>
+            <i class="fa-brands fa-cc-paypal"></i>
+            <i class="fa-brands fa-cc-amex"></i>
+          </div>
+        </div>
+
+        <!-- Legal Links -->
+        <div class="flex space-x-4 text-sm">
+          <a routerLink="/privacy" class="text-gray-400 hover:text-amber-500 transition-colors">
+            Privacy Policy
+          </a>
+          <a routerLink="/terms" class="text-gray-400 hover:text-amber-500 transition-colors">
+            Terms of Service
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </footer>
