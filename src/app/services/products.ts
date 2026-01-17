@@ -1,7 +1,7 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { Product } from '../models/products.model';
 import { HttpClient } from '@angular/common/http';
-
+import { ToastService } from './toast';
 @Injectable({
   providedIn: 'root',
 })
@@ -61,6 +61,7 @@ export class ProductsService {
   getADta() {
     return this.http.get('https://jsonplaceholder.typicode.com/todos ');
   }
+  private toastService = inject(ToastService);
   // Cart/Selected products
   private selectedProducts = signal<Product[]>([]);
 
@@ -85,7 +86,7 @@ export class ProductsService {
     return this.products.filter(
       (product) =>
         product.name.toLowerCase().includes(term) ||
-        product.description.toLowerCase().includes(term)
+        product.description.toLowerCase().includes(term),
     );
   });
 
@@ -103,10 +104,12 @@ export class ProductsService {
       // Product exists - remove it (create new array without this product)
       const newCart = currentCart.filter((p) => p.id !== incomingProductObject.id);
       this.selectedProducts.set(newCart); // ← Set new array!
+      this.toastService.info(`${incomingProductObject.name} was removed from cart`);
     } else {
       // Product doesn't exist - add it with quantity 1 (create new array with this product)
       const newCart = [...currentCart, { ...incomingProductObject, quantity: 1 }];
       this.selectedProducts.set(newCart); // ← Set new array!
+      this.toastService.success(`${incomingProductObject.name} added to cart!`);
     }
   }
 
@@ -124,19 +127,19 @@ export class ProductsService {
     // ← HERE!
     const currentCart = this.selectedProducts();
     const updatedCart = currentCart.map((product) =>
-      product.id === productId ? { ...product, quantity: newQuantity } : product
+      product.id === productId ? { ...product, quantity: newQuantity } : product,
     );
     this.selectedProducts.set(updatedCart);
   }
 
   // Remove product from cart
   removeFromCart(productId: number) {
-    const index = this.selectedProducts().findIndex((p) => p.id === productId);
-    if (index > -1) {
-      const currentCart = this.selectedProducts();
-      currentCart.splice(index, 1);
-      this.selectedProducts.set([...currentCart]);
-    }
+    const currentCart = this.selectedProducts();
+    const product = currentCart.find((p) => p.id === productId);
+    const updatedCart = currentCart.filter((p) => p.id !== productId);
+    this.selectedProducts.set(updatedCart);
+
+    this.toastService.info(`${product!.name} removed from cart`); // Add toast
   }
   // Computed cart totals
   cartSubtotal = computed(() => {
@@ -151,14 +154,17 @@ export class ProductsService {
     // Simple promo code logic
     if (code.toUpperCase() === 'SAVE10') {
       this.promoDiscount.set(10);
+      this.toastService.success('10% discount applied!');
       return { success: true, message: '10% discount applied!' };
     } else if (code.toUpperCase() === 'SAVE20') {
       this.promoDiscount.set(20);
+      this.toastService.success('20% discount applied!');
       return { success: true, message: '20% discount applied!' };
     } else if (code === '') {
       this.promoDiscount.set(0);
       return { success: false, message: '' };
     } else {
+      this.toastService.error('Invalid promo code'); // Add toast
       return { success: false, message: 'Invalid promo code' };
     }
   }

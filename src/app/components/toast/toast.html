@@ -1,0 +1,33 @@
+<!-- Toast Container - Fixed at top-right -->
+<div class="fixed top-20 right-4 z-9999 space-y-3 max-w-sm w-full">
+  @for (toast of toasts(); track toast.id) {
+    <div
+      [class]="
+        'flex items-start p-4 rounded-lg border-l-4 shadow-lg animate-slide-in ' +
+        getToastClass(toast.type)
+      "
+      role="alert"
+    >
+      <!-- Icon -->
+      <i
+        [class]="
+          'fa-solid text-xl mr-3 mt-0.5 ' + getIcon(toast.type) + ' ' + getIconClass(toast.type)
+        "
+      ></i>
+
+      <!-- Message -->
+      <div class="flex-1 mr-2">
+        <p class="text-sm font-semibold">{{ toast.message }}</p>
+      </div>
+
+      <!-- Close Button -->
+      <button
+        (click)="removeToast(toast.id)"
+        class="text-gray-400 hover:text-gray-600 transition-colors ml-2"
+        aria-label="Close"
+      >
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+  }
+</div>

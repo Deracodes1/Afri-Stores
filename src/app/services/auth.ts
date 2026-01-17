@@ -1,12 +1,13 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { User, Order, Address } from '../models/user.model';
-
+import { ToastService } from './toast';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private router = inject(Router);
+  toastService = inject(ToastService); // importing the toast service for sending notifactions
   companyName = 'Afri Mega Stores';
   private currentUser = signal<User | null>(null);
   isLoggedIn = signal<boolean>(false);
@@ -111,6 +112,7 @@ export class AuthService {
 
     // Validate that we have at least something
     if (!parsedName.firstName) {
+      this.toastService.error('Please enter your name');
       return { success: false, message: 'Please enter your name' };
     }
 
@@ -146,9 +148,8 @@ export class AuthService {
    * Sign in existing user
    */
   signIn(email: string, password: string) {
-    console.log('Signing in:', { email, password });
-
     if (password.length < 6) {
+      this.toastService.error('Invalid email or password');
       return { success: false, message: 'Invalid credentials' };
     }
 
@@ -172,7 +173,7 @@ export class AuthService {
 
     this.currentUser.set(user);
     this.isLoggedIn.set(true);
-
+    this.toastService.success(`Welcome back, ${user.firstName}!`);
     this.router.navigate(['/home']);
 
     return { success: true, message: 'Logged in successfully!' };
@@ -184,7 +185,7 @@ export class AuthService {
 
     this.currentUser.set(null);
     this.isLoggedIn.set(false);
-
+    this.toastService.info('You have been logged out');
     this.router.navigate(['/login']);
   }
 
@@ -294,6 +295,6 @@ export class AuthService {
    * Mock social login
    */
   socialLogin(provider: 'google' | 'facebook') {
-    alert(`${provider} login coming soon! This requires Firebase or OAuth setup.`);
+    this.toastService.info(`${provider} login coming soon! We're working on it.`);
   }
 }

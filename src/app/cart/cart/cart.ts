@@ -3,6 +3,7 @@ import { ProductsService } from '../../services/products';
 import { Product } from '../../models/products.model';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ToastService } from '../../services/toast';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.html',
@@ -12,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 export class Cart {
   private productsService = inject(ProductsService);
   private router = inject(Router);
-
+  private toastService = inject(ToastService);
   cartItems = signal<Product[]>([]);
   promoCodeInput = signal<string>('');
   promoMessage = signal<string>('');
@@ -74,9 +75,9 @@ export class Cart {
   }
 
   proceedToCheckout() {
+    this.toastService.info('Checkout feature coming soon!');
     // Add checkout logic here
     console.log('Proceeding to checkout with items:', this.cartItems());
-    alert('Checkout functionality coming soon!');
   }
 
   getItemTotal(product: Product): number {

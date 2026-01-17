@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth';
 import { User, Address, Order } from '../models/user.model';
 import { ShortenamePipe } from '../pipes/shortename-pipe';
+import { ToastService } from '../services/toast';
 @Component({
   selector: 'app-account',
   standalone: true,
@@ -15,6 +16,7 @@ import { ShortenamePipe } from '../pipes/shortename-pipe';
 })
 export class UserAccount implements OnInit {
   private fb = inject(FormBuilder);
+  private toastService = inject(ToastService);
   authService = inject(AuthService);
   router = inject(Router);
 
@@ -144,6 +146,7 @@ export class UserAccount implements OnInit {
 
         if (result.success) {
           this.saveMessage.set('Profile updated successfully!');
+          this.toastService.success('Profile updated successfully!');
           this.isEditingProfile.set(false);
           this.loadUserData();
 
@@ -152,6 +155,7 @@ export class UserAccount implements OnInit {
       }, 1000);
     } else {
       this.profileForm.markAllAsTouched();
+      this.toastService.warning('Please fill in all required fields');
     }
   }
 
@@ -163,7 +167,7 @@ export class UserAccount implements OnInit {
       const { currentPassword, newPassword, confirmPassword } = this.passwordForm.value;
 
       if (newPassword !== confirmPassword) {
-        alert('Passwords do not match!');
+        this.toastService.error('Passwords do not match!');
         return;
       }
 
@@ -175,14 +179,15 @@ export class UserAccount implements OnInit {
         this.isChangingPassword.set(false);
 
         if (result.success) {
-          alert('Password changed successfully!');
+          this.toastService.success('Password changed successfully!');
           this.passwordForm.reset();
         } else {
-          alert(result.message);
+          this.toastService.error(result.message);
         }
       }, 1000);
     } else {
       this.passwordForm.markAllAsTouched();
+      this.toastService.warning('Please fill in all password fields');
     }
   }
 
@@ -190,10 +195,8 @@ export class UserAccount implements OnInit {
    * Logout
    */
   logout() {
-    if (confirm('Are you sure you want to log out?')) {
-      this.authService.logout();
-      this.router.navigate(['/home']);
-    }
+    this.authService.logout();
+    this.router.navigate(['/home']);
   }
 
   /**
