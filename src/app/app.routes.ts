@@ -37,4 +37,9 @@ export const routes: Routes = [
   //   loadComponent: () => import('./wishlist/wishlist').then((m) => m.Wishlist),
   //   canActivate: [authGuard]  // Also protected
   // }
+  // 404 Route - this serves as the fallback/error state route!
+  {
+    path: '**',
+    loadComponent: () => import('./error/not-found/not-found').then((m) => m.NotFound),
+  },
 ];
