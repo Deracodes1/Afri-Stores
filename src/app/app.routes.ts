@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './Route-Guards/auth-guard'; // Import the guard
+import { authGuard } from './Guards/auth-route-guard/auth-guard'; // Import the guard
 
 export const routes: Routes = [
   {
@@ -16,11 +16,11 @@ export const routes: Routes = [
   },
   {
     path: 'signup',
-    loadComponent: () => import('./sign-up/sign-up').then((m) => m.Signup),
+    loadComponent: () => import('./Auth/sign-up/sign-up').then((m) => m.Signup),
   },
   {
     path: 'signin',
-    loadComponent: () => import('./signin/signin').then((m) => m.Signin),
+    loadComponent: () => import('./Auth/signin/signin').then((m) => m.Signin),
   },
   {
     path: 'account',

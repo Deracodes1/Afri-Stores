@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../services/auth';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-signup',
@@ -68,7 +68,7 @@ export class Signup {
     },
     {
       validators: this.passwordMatchValidator, // Apply custom validator to entire form
-    }
+    },
   );
 
   togglePasswordVisibility() {
