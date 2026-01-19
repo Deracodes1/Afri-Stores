@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import { ProductsService } from '../../services/products';
 import { Product } from '../../models/products.model';
 import { Router } from '@angular/router';
@@ -14,10 +14,12 @@ export class Cart {
   private productsService = inject(ProductsService);
   private router = inject(Router);
   private toastService = inject(ToastService);
+
   cartItems = signal<Product[]>([]);
   promoCodeInput = signal<string>('');
   promoMessage = signal<string>('');
   promoSuccess = signal<boolean>(false);
+  activeQuantityId = signal<number | null>(null);
 
   // Computed values from service
   subtotal = this.productsService.cartSubtotal;

@@ -24,7 +24,6 @@ export class NavbarComponent {
 
   toggleMobileMenu() {
     this.mobileMenuOpen.set(!this.mobileMenuOpen());
-    console.log(this.cartCount);
   }
 
   closeMobileMenu() {

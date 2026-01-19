@@ -46,7 +46,7 @@
             <div class="space-y-4">
               @for (item of cartItems(); track item.id) {
                 <div
-                  class="flex flex-col sm:flex-row gap-3 sm:gap-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200"
+                  class="flex flex-col sm:flex-row gap-3 sm:gap-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200 active:shadow-md"
                 >
                   <!-- Product Image -->
                   <div class="shrink-0 mx-auto sm:mx-0">
@@ -85,7 +85,7 @@
                       >
                         <button
                           (click)="decreaseQuantity(item.id)"
-                          class="text-gray-600 hover:text-amber-700 transition-colors"
+                          class="text-gray-600 hover:text-amber-700 active:scale-95 transition-all duration-100"
                         >
                           <i class="fa-solid fa-minus text-sm"></i>
                         </button>
@@ -96,7 +96,7 @@
 
                         <button
                           (click)="increaseQuantity(item.id)"
-                          class="text-gray-600 hover:text-amber-700 transition-colors"
+                          class="text-gray-600 hover:text-amber-700 active:scale-95 transition-all duration-100"
                         >
                           <i class="fa-solid fa-plus text-sm"></i>
                         </button>
