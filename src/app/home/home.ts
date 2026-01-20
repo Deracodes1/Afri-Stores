@@ -32,11 +32,11 @@ export class Home implements OnInit {
           catchError((err) => {
             console.error(err);
             throw err;
-          })
+          }),
         )
         .subscribe((currentYear) => {
           console.log(currentYear);
-        })
+        }),
     );
   }
 }

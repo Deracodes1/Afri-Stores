@@ -1,0 +1,10 @@
+<!-- Scroll to Top Button -->
+@if (showButton()) {
+  <button
+    (click)="scrollToTop()"
+    class="fixed bottom-8 right-8 z-50 bg-amber-600 text-white p-4 rounded-full shadow-lg hover:bg-amber-700 transition-all duration-300 hover:scale-110 animate-fade-in"
+    aria-label="Scroll to top"
+  >
+    <i class="fa-solid fa-arrow-up text-xl animate-bounce"></i>
+  </button>
+}
