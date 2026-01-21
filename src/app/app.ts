@@ -12,12 +12,6 @@ import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top';
 })
 export class App {
   title = signal('Afri Mega Stores');
-  namee = 'Dera Codes';
-  name = 'Ezemenia Chidera Emmnauel';
-  onclick() {
-    this.title.set('Dera Stores');
-    this.namee = 'Oderico';
-  }
 }
 // add this code when start fetching data from a real api
 // ngOnInit() {

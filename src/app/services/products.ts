@@ -66,7 +66,7 @@ export class ProductsService {
   private selectedProducts = signal<Product[]>([]);
 
   // Search term signal
-  private searchTerm = signal<string>('');
+  searchTerm = signal<string>('');
 
   // Promo code
   private promoCode = signal<string>('');
