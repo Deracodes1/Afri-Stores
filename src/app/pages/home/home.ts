@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal, effect, untracked } from '@angular/core';
-import { Product } from '../models/products.model';
-import { ProductsService } from '../services/products';
-import { ProductCardComponent } from '../components/product-card-component/product-card-component';
-import { SkeletonProductCard } from '../components/skeleton-product-card/skeleton-product-card';
+import { Product } from '../../models/products.model';
+import { ProductsService } from '../../services/products';
+import { ProductCardComponent } from '../../components/product-card-component/product-card-component';
+import { SkeletonProductCard } from '../../components/skeleton-product-card/skeleton-product-card';
 import { catchError } from 'rxjs';
 
 @Component({

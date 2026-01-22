@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../services/auth';
-import { User, Address, Order } from '../models/user.model';
-import { ShortenamePipe } from '../pipes/shortename-pipe';
-import { ToastService } from '../services/toast';
+import { AuthService } from '../../services/auth';
+import { User, Address, Order } from '../../models/user.model';
+import { ShortenamePipe } from '../../pipes/shortename-pipe';
+import { ToastService } from '../../services/toast';
 @Component({
   selector: 'app-account',
   standalone: true,

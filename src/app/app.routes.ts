@@ -4,15 +4,15 @@ import { authGuard } from './Guards/auth-route-guard/auth-guard'; // Import the 
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./home/home').then((m) => m.Home),
+    loadComponent: () => import('./pages/home/home').then((m) => m.Home),
   },
   {
     path: 'home',
-    loadComponent: () => import('./home/home').then((m) => m.Home),
+    loadComponent: () => import('./pages/home/home').then((m) => m.Home),
   },
   {
     path: 'cart',
-    loadComponent: () => import('./cart/cart/cart').then((m) => m.Cart),
+    loadComponent: () => import('./pages/cart/cart').then((m) => m.Cart),
   },
   {
     path: 'signup',
@@ -24,7 +24,7 @@ export const routes: Routes = [
   },
   {
     path: 'account',
-    loadComponent: () => import('./user-account/user-account').then((m) => m.UserAccount),
+    loadComponent: () => import('./pages/user-account/user-account').then((m) => m.UserAccount),
     canActivate: [authGuard], // ← Add this line to protect the route
   },
   //   {
@@ -40,6 +40,6 @@ export const routes: Routes = [
   // 404 Route - this serves as the fallback/error state route!
   {
     path: '**',
-    loadComponent: () => import('./error/not-found/not-found').then((m) => m.NotFound),
+    loadComponent: () => import('./pages/error/not-found').then((m) => m.NotFound),
   },
 ];
