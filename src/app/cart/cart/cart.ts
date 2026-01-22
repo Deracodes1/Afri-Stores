@@ -16,6 +16,7 @@ export class Cart {
   private toastService = inject(ToastService);
 
   cartItems = signal<Product[]>([]);
+  cartTotal = this.productsService.NumOfSelectedProducts;
   promoCodeInput = signal<string>('');
   promoMessage = signal<string>('');
   promoSuccess = signal<boolean>(false);

@@ -1,9 +1,8 @@
 <div
-  (click)="sendClickedProduct()"
   [class]="
     isSelectedState()
       ? 'bg-amber-50 border-2 cursor-pointer border-amber-500 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden'
-      : 'bg-white border-2 cursor-pointer border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden'
+      : 'bg-white border-2 cursor-pointer  border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden'
   "
 >
   <img
@@ -20,10 +19,11 @@
     <div class="flex items-center justify-between">
       <span class="text-2xl font-bold text-amber-700">${{ product().price }}</span>
       <button
+        (click)="sendClickedProductToCart()"
         [class]="
           isSelectedState()
-            ? 'bg-red-600 text-white px-4 py-2 flex items-center rounded-lg hover:bg-red-700 transition-colors duration-200'
-            : 'bg-amber-700 text-white px-4 py-2 flex items-center rounded-lg hover:bg-amber-800 transition-colors duration-200'
+            ? 'bg-red-600 cursor--pointer text-white px-4 py-2 flex items-center rounded-lg hover:bg-red-700 transition-colors duration-200'
+            : 'bg-amber-700 cursor-pointer  text-white px-4 py-2 flex items-center rounded-lg hover:bg-amber-800 transition-colors duration-200'
         "
       >
         {{ isSelectedState() ? 'Remove' : 'Add to Cart' }}

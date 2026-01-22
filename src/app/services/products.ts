@@ -73,8 +73,14 @@ export class ProductsService {
   private promoDiscount = signal<number>(0); // percentage discount
 
   // Number of selected products signal
-  NumOfSelectedProducts = computed(() => this.selectedProducts().length);
-
+  NumOfSelectedProducts = computed((): number | undefined => {
+    const currentQunatity = this.selectedProducts()
+      .map((product) => product.quantity)
+      .reduce((accu, curVal) => {
+        return accu! + curVal!;
+      }, 0);
+    return currentQunatity;
+  });
   // Computed filtered products based on search term
   filteredProducts = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();

@@ -29,8 +29,8 @@
                 <div>
                   <h1 class="text-xl sm:text-2xl font-bold text-gray-800">Your Cart</h1>
                   <p class="text-sm text-gray-600 mt-1">
-                    You have {{ cartItems().length }}
-                    {{ cartItems().length === 1 ? 'item' : 'items' }} in your cart
+                    You have {{ cartTotal() }} {{ cartItems().length === 1 ? 'item' : 'items' }} in
+                    your cart
                   </p>
                 </div>
                 <button

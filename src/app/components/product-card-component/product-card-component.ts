@@ -10,7 +10,7 @@ export class ProductCardComponent {
   product = input.required<Product>();
   outgoingData = output<Product>();
   isSelectedState = input<boolean>();
-  sendClickedProduct() {
+  sendClickedProductToCart() {
     this.outgoingData.emit(this.product());
   }
 }
