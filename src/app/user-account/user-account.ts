@@ -20,7 +20,7 @@ export class UserAccount implements OnInit {
   authService = inject(AuthService);
   router = inject(Router);
 
-  // brand/comapany name
+  // brand/company name
   companyName = this.authService.companyName;
   // Current active section
   activeSection = signal<string>('profile');
