@@ -1,0 +1,41 @@
+<div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+  <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-6">My Orders</h2>
+
+  <div class="space-y-4">
+    @for (order of orders(); track order.id) {
+      <div
+        class="flex flex-col sm:flex-row sm:items-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow space-y-3 sm:space-y-0 sm:space-x-4"
+      >
+        <img
+          [src]="order.productImage"
+          [alt]="order.productName"
+          class="w-full sm:w-20 h-40 sm:h-20 object-cover rounded-lg"
+        />
+
+        <div class="flex-1">
+          <h4 class="font-semibold text-gray-800 text-base sm:text-lg">
+            {{ order.productName }}
+          </h4>
+          <p class="text-sm text-gray-500 mt-1">
+            Order #{{ order.orderNumber }} • {{ order.orderDate }}
+          </p>
+          <span
+            [class]="
+              'inline-block mt-2 text-xs font-semibold px-3 py-1 rounded ' +
+              getStatusClass(order.status)
+            "
+          >
+            • {{ getStatusText(order.status) }}
+          </span>
+        </div>
+
+        <div class="text-left sm:text-right space-y-2">
+          <p class="text-xl font-bold text-amber-700">₦{{ order.price.toLocaleString() }}</p>
+          <button class="text-amber-700 hover:text-amber-800 text-sm font-semibold block sm:inline">
+            View Details →
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

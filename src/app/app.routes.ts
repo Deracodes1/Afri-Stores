@@ -25,13 +25,45 @@ export const routes: Routes = [
   {
     path: 'account',
     loadComponent: () => import('./pages/user-account/user-account').then((m) => m.UserAccount),
-    canActivate: [authGuard], // ← Add this line to protect the route
+    canActivate: [authGuard], // this authguard protects the route
+    children: [
+      {
+        path: '',
+        redirectTo: 'profile',
+        pathMatch: 'full',
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./pages/user-account/profile/profile').then((m) => m.Profile),
+      },
+      {
+        path: 'orders',
+        loadComponent: () => import('./pages/user-account/orders/orders').then((m) => m.Orders),
+      },
+      {
+        path: 'payment',
+        loadComponent: () => import('./pages/user-account/payment/payment').then((m) => m.Payment),
+      },
+      {
+        path: 'address',
+        loadComponent: () => import('./pages/user-account/address/address').then((m) => m.Address),
+      },
+      {
+        path: 'support',
+        loadComponent: () => import('./pages/user-account/support/support').then((m) => m.Support),
+      },
+      {
+        path: 'prefrences',
+        loadComponent: () =>
+          import('./pages/user-account/prefrences/prefrences').then((m) => m.Prefrences),
+      },
+      {
+        path: 'address',
+        loadComponent: () =>
+          import('./pages/user-account/feedback/feedback').then((m) => m.Feedback),
+      },
+    ],
   },
-  //   {
-  //   path: 'orders',
-  //   loadComponent: () => import('./orders/orders').then((m) => m.Orders),
-  //   canActivate: [authGuard]  // Also protected
-  // },
   // {
   //   path: 'wishlist',
   //   loadComponent: () => import('./wishlist/wishlist').then((m) => m.Wishlist),

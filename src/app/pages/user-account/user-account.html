@@ -21,6 +21,7 @@
 
             <button
               (click)="setActiveSection('orders')"
+              routerLink="orders"
               [class]="
                 activeSection() === 'orders'
                   ? 'w-full flex items-center space-x-3 px-4 py-3 bg-amber-50 text-amber-700 rounded-lg font-semibold transition-colors'
@@ -33,6 +34,7 @@
 
             <button
               (click)="setActiveSection('payment')"
+              routerLink="payment"
               [class]="
                 activeSection() === 'payment'
                   ? 'w-full flex items-center space-x-3 px-4 py-3 bg-amber-50 text-amber-700 rounded-lg font-semibold transition-colors'
@@ -45,6 +47,7 @@
 
             <button
               (click)="setActiveSection('address')"
+              routerLink="address"
               [class]="
                 activeSection() === 'address'
                   ? 'w-full flex items-center space-x-3 px-4 py-3 bg-amber-50 text-amber-700 rounded-lg font-semibold transition-colors'
@@ -56,17 +59,41 @@
             </button>
 
             <button
-              (click)="setActiveSection('wishlist')"
+              (click)="setActiveSection('support')"
+              routerLink="support"
               [class]="
-                activeSection() === 'wishlist'
+                activeSection() === 'support'
                   ? 'w-full flex items-center space-x-3 px-4 py-3 bg-amber-50 text-amber-700 rounded-lg font-semibold transition-colors'
                   : 'w-full flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors'
               "
             >
-              <i class="fa-solid fa-heart"></i>
-              <span>Wishlist</span>
+              <i class="fa-solid fa-circle-question"></i>
+              <span>Help/Support</span>
             </button>
-
+            <button
+              (click)="setActiveSection('feedback')"
+              routerLink="feedback"
+              [class]="
+                activeSection() === 'feedback'
+                  ? 'w-full flex items-center space-x-3 px-4 py-3 bg-amber-50 text-amber-700 rounded-lg font-semibold transition-colors'
+                  : 'w-full flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors'
+              "
+            >
+              <i class="fa-solid fa-star"></i>
+              <span>feedbacks/reviews</span>
+            </button>
+            <button
+              (click)="setActiveSection('preferences')"
+              routerLink="preferences"
+              [class]="
+                activeSection() === 'preferences'
+                  ? 'w-full flex items-center space-x-3 px-4 py-3 bg-amber-50 text-amber-700 rounded-lg font-semibold transition-colors'
+                  : 'w-full flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors'
+              "
+            >
+              <i class="fa-solid fa-bell"></i>
+              <span>Preferences</span>
+            </button>
             <button
               (click)="logout()"
               class="w-full flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
@@ -84,6 +111,7 @@
           <div class="flex overflow-x-auto space-x-2 pb-2">
             <button
               (click)="setActiveSection('profile')"
+              routerLink="profile"
               [class]="
                 activeSection() === 'profile'
                   ? 'shrink-0 px-4 py-2 bg-amber-600 text-white rounded-lg font-semibold text-sm'
@@ -94,6 +122,7 @@
             </button>
             <button
               (click)="setActiveSection('orders')"
+              routerLink="orders"
               [class]="
                 activeSection() === 'orders'
                   ? 'shrink-0 px-4 py-2 bg-amber-600 text-white rounded-lg font-semibold text-sm'
@@ -104,6 +133,7 @@
             </button>
             <button
               (click)="setActiveSection('payment')"
+              routerLink="payment"
               [class]="
                 activeSection() === 'payment'
                   ? 'shrink-0 px-4 py-2 bg-amber-600 text-white rounded-lg font-semibold text-sm'
@@ -114,6 +144,7 @@
             </button>
             <button
               (click)="setActiveSection('address')"
+              routerLink="address"
               [class]="
                 activeSection() === 'address'
                   ? 'shrink-0 px-4 py-2 bg-amber-600 text-white rounded-lg font-semibold text-sm'
@@ -123,14 +154,40 @@
               <i class="fa-solid fa-location-dot mr-2"></i>Address
             </button>
             <button
-              (click)="setActiveSection('wishlist')"
+              (click)="setActiveSection('support')"
+              routerLink="support"
               [class]="
-                activeSection() === 'wishlist'
+                activeSection() === 'support'
                   ? 'shrink-0 px-4 py-2 bg-amber-600 text-white rounded-lg font-semibold text-sm'
                   : 'shrink-0 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm'
               "
             >
-              <i class="fa-solid fa-heart mr-2"></i>Wishlist
+              <i class="fa-solid fa-circle-question mr-2"></i>
+              <span>Help/Support</span>
+            </button>
+            <button
+              (click)="setActiveSection('feedback')"
+              routerLink="feedback"
+              [class]="
+                activeSection() === 'feedback'
+                  ? 'shrink-0 px-4 py-2 bg-amber-600 text-white rounded-lg font-semibold text-sm'
+                  : 'shrink-0 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm'
+              "
+            >
+              <i class="fa-solid fa-star mr-2"></i>
+              <span>feedbacks/reviews</span>
+            </button>
+            <button
+              (click)="setActiveSection('preferences')"
+              routerLink="preferences"
+              [class]="
+                activeSection() === 'preferences'
+                  ? 'shrink-0 px-4 py-2 bg-amber-600 text-white rounded-lg font-semibold text-sm'
+                  : 'shrink-0 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm'
+              "
+            >
+              <i class="fa-solid fa-bell mr-2"></i>
+              <span>Preferences</span>
             </button>
           </div>
         </div>
@@ -138,298 +195,7 @@
 
       <!-- Main Content -->
       <div class="col-span-1 lg:col-span-6">
-        <!-- Profile Section -->
-        @if (activeSection() === 'profile' && user()) {
-        <div class="space-y-6">
-          <!-- Profile Header -->
-          <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
-            <div
-              class="flex flex-col sm:flex-row sm:items-start sm:justify-between space-y-4 sm:space-y-0"
-            >
-              <div
-                class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4"
-              >
-                <!-- Avatar -->
-                <div
-                  class="w-20 h-20 bg-linear-to-br from-amber-600 to-amber-700 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg"
-                >
-                  {{ authService.getUserInitials() }}
-                </div>
-
-                <!-- User Info -->
-                <div class="text-center sm:text-left">
-                  <div
-                    class="flex flex-col sm:flex-row items-center sm:items-center space-y-2 sm:space-y-0 sm:space-x-2"
-                  >
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800">
-                      {{ user()!.name | shortename }}
-                    </h2>
-                    @if (user()!.membershipType === 'gold') {
-                    <span
-                      class="bg-amber-100 text-amber-700 text-xs font-semibold px-2 py-1 rounded"
-                    >
-                      <i class="fa-solid fa-crown"></i> Gold Member
-                    </span>
-                    }
-                  </div>
-                  <p class="text-gray-600 text-sm mt-1">Member since {{ user()!.memberSince }}</p>
-
-                  <!-- Stats -->
-                  <div class="flex items-center justify-center sm:justify-start space-x-6 mt-3">
-                    <div class="text-center sm:text-left">
-                      <p class="text-xs text-gray-500">TOTAL ORDERS</p>
-                      <p class="text-lg font-bold text-gray-800">{{ user()!.totalOrders }}</p>
-                    </div>
-                    <div class="text-center sm:text-left">
-                      <p class="text-xs text-gray-500">REVIEWS</p>
-                      <p class="text-lg font-bold text-gray-800">{{ user()!.totalReviews }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Edit Button -->
-              <button
-                (click)="toggleEditMode()"
-                class="self-center sm:self-start text-amber-700 hover:text-amber-800 transition-colors"
-              >
-                <i
-                  [class]="
-                    isEditingProfile() ? 'fa-solid fa-xmark text-xl' : 'fa-solid fa-pen text-lg'
-                  "
-                ></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Personal Information -->
-          <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
-            <div
-              class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-2 sm:space-y-0"
-            >
-              <h3 class="text-lg sm:text-xl font-bold text-gray-800">Personal Information</h3>
-              @if (!isEditingProfile()) {
-              <button
-                (click)="toggleEditMode()"
-                class="text-amber-700 hover:text-amber-800 text-sm font-semibold transition-colors"
-              >
-                Edit details
-              </button>
-              }
-            </div>
-
-            @if (saveMessage()) {
-            <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-              <p class="text-green-600 text-sm">{{ saveMessage() }}</p>
-            </div>
-            }
-
-            <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                <!-- First Name -->
-                <div>
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">First Name</label>
-                  <input
-                    type="text"
-                    formControlName="firstName"
-                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 disabled:bg-gray-50 disabled:text-gray-600 transition-all"
-                  />
-                  @if (hasError('profile', 'firstName', 'required')) {
-                  <p class="text-red-500 text-xs mt-1">First name is required</p>
-                  }
-                </div>
-
-                <!-- Last Name -->
-                <div>
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">Last Name</label>
-                  <input
-                    type="text"
-                    formControlName="lastName"
-                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 disabled:bg-gray-50 disabled:text-gray-600 transition-all"
-                  />
-                  @if (hasError('profile', 'lastName', 'required')) {
-                  <p class="text-red-500 text-xs mt-1">Last name is required</p>
-                  }
-                </div>
-              </div>
-
-              <!-- Email -->
-              <div class="mb-4">
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
-                <div class="relative">
-                  <i
-                    class="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                  ></i>
-                  <input
-                    type="email"
-                    formControlName="email"
-                    class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 disabled:bg-gray-50 disabled:text-gray-600 transition-all"
-                  />
-                </div>
-                @if (hasError('profile', 'email', 'email')) {
-                <p class="text-red-500 text-xs mt-1">Invalid email format</p>
-                }
-              </div>
-
-              <!-- Phone -->
-              <div class="mb-4">
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
-                <div class="relative">
-                  <i
-                    class="fa-solid fa-phone absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                  ></i>
-                  <input
-                    type="tel"
-                    formControlName="phone"
-                    class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 disabled:bg-gray-50 disabled:text-gray-600 transition-all"
-                  />
-                </div>
-              </div>
-
-              <!-- Save Button -->
-              @if (isEditingProfile()) {
-              <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-                <button
-                  type="submit"
-                  class="flex-1 bg-amber-600 text-white py-2 px-4 rounded-lg hover:bg-amber-700 transition-colors disabled:opacity-50 font-semibold"
-                >
-                  @if (isSavingProfile()) {
-                  <i class="fa-solid fa-spinner fa-spin mr-2"></i>
-                  <span>Saving...</span>
-                  } @else {
-                  <span>Save Changes</span>
-                  }
-                </button>
-                <button
-                  type="button"
-                  (click)="toggleEditMode()"
-                  class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-semibold"
-                >
-                  Cancel
-                </button>
-              </div>
-              }
-            </form>
-          </div>
-
-          <!-- Recent Orders -->
-          <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
-            <div class="flex justify-between items-center mb-6">
-              <h3 class="text-lg sm:text-xl font-bold text-gray-800">Recent Orders</h3>
-              <button
-                (click)="setActiveSection('orders')"
-                class="text-amber-700 hover:text-amber-800 text-sm font-semibold transition-colors"
-              >
-                View All
-              </button>
-            </div>
-
-            <div class="space-y-4">
-              @for (order of orders().slice(0, 2); track order.id) {
-              <div
-                class="flex flex-col sm:flex-row sm:items-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow space-y-3 sm:space-y-0 sm:space-x-4"
-              >
-                <!-- Product Image -->
-                <img
-                  [src]="order.productImage"
-                  [alt]="order.productName"
-                  class="w-full sm:w-16 h-32 sm:h-16 object-cover rounded-lg"
-                />
-
-                <!-- Order Info -->
-                <div class="flex-1">
-                  <h4 class="font-semibold text-gray-800">{{ order.productName }}</h4>
-                  <p class="text-xs text-gray-500 mt-1">
-                    Order #{{ order.orderNumber }} • Placed on {{ order.orderDate }}
-                  </p>
-                  <span
-                    [class]="
-                      'inline-block mt-2 text-xs font-semibold px-2 py-1 rounded ' +
-                      getStatusClass(order.status)
-                    "
-                  >
-                    • {{ getStatusText(order.status) }}
-                  </span>
-                </div>
-
-                <!-- Price -->
-                <div class="text-left sm:text-right">
-                  <p class="text-xl font-bold text-amber-700">
-                    ₦{{ order.price.toLocaleString() }}
-                  </p>
-                </div>
-              </div>
-              }
-            </div>
-          </div>
-        </div>
-        }
-
-        <!-- Orders Section -->
-        @if (activeSection() === 'orders') {
-        <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
-          <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-6">My Orders</h2>
-
-          <div class="space-y-4">
-            @for (order of orders(); track order.id) {
-            <div
-              class="flex flex-col sm:flex-row sm:items-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow space-y-3 sm:space-y-0 sm:space-x-4"
-            >
-              <img
-                [src]="order.productImage"
-                [alt]="order.productName"
-                class="w-full sm:w-20 h-40 sm:h-20 object-cover rounded-lg"
-              />
-
-              <div class="flex-1">
-                <h4 class="font-semibold text-gray-800 text-base sm:text-lg">
-                  {{ order.productName }}
-                </h4>
-                <p class="text-sm text-gray-500 mt-1">
-                  Order #{{ order.orderNumber }} • {{ order.orderDate }}
-                </p>
-                <span
-                  [class]="
-                    'inline-block mt-2 text-xs font-semibold px-3 py-1 rounded ' +
-                    getStatusClass(order.status)
-                  "
-                >
-                  • {{ getStatusText(order.status) }}
-                </span>
-              </div>
-
-              <div class="text-left sm:text-right space-y-2">
-                <p class="text-xl font-bold text-amber-700">₦{{ order.price.toLocaleString() }}</p>
-                <button
-                  class="text-amber-700 hover:text-amber-800 text-sm font-semibold block sm:inline"
-                >
-                  View Details →
-                </button>
-              </div>
-            </div>
-            }
-          </div>
-        </div>
-        }
-
-        <!-- Other Sections Placeholder -->
-        @if (activeSection() === 'payment') {
-        <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
-          <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Payment Methods</h2>
-          <p class="text-gray-600">Payment methods management coming soon...</p>
-        </div>
-        } @if (activeSection() === 'address') {
-        <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
-          <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Address Book</h2>
-          <p class="text-gray-600">Address management coming soon...</p>
-        </div>
-        } @if (activeSection() === 'wishlist') {
-        <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
-          <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">My Wishlist</h2>
-          <p class="text-gray-600">Wishlist feature coming soon...</p>
-        </div>
-        }
-
+        <router-outlet></router-outlet>
         <!-- Mobile Logout Button -->
         <div class="lg:hidden mt-6">
           <button
@@ -447,36 +213,38 @@
         <div class="space-y-6 lg:sticky lg:top-24">
           <!-- Default Address -->
           @if (addresses().length > 0) {
-          <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
-            <div class="flex justify-between items-start mb-4">
-              <h3 class="font-bold text-gray-800">Default Address</h3>
-              <button class="text-amber-700 hover:text-amber-800 text-sm">
-                <i class="fa-solid fa-pen"></i>
-              </button>
-            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+              <div class="flex justify-between items-start mb-4">
+                <h3 class="font-bold text-gray-800">Default Address</h3>
+                <button class="text-amber-700 hover:text-amber-800 text-sm">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+              </div>
 
-            @for (address of addresses(); track address.id) { @if (address.isDefault) {
-            <div>
-              <span
-                class="inline-block bg-amber-100 text-amber-700 text-xs font-bold px-2 py-1 rounded mb-2"
-              >
-                {{ address.label }}
-              </span>
-              <p class="font-semibold text-gray-800">{{ user()?.name }}</p>
-              <p class="text-sm text-gray-600 mt-1">{{ address.street }}</p>
-              <p class="text-sm text-gray-600">{{ address.city }}, {{ address.state }}</p>
-              <p class="text-sm text-gray-600">{{ address.country }}</p>
-              <p class="text-sm text-gray-600 mt-2">{{ address.phone }}</p>
+              @for (address of addresses(); track address.id) {
+                @if (address.isDefault) {
+                  <div>
+                    <span
+                      class="inline-block bg-amber-100 text-amber-700 text-xs font-bold px-2 py-1 rounded mb-2"
+                    >
+                      {{ address.label }}
+                    </span>
+                    <p class="font-semibold text-gray-800">{{ user()?.name }}</p>
+                    <p class="text-sm text-gray-600 mt-1">{{ address.street }}</p>
+                    <p class="text-sm text-gray-600">{{ address.city }}, {{ address.state }}</p>
+                    <p class="text-sm text-gray-600">{{ address.country }}</p>
+                    <p class="text-sm text-gray-600 mt-2">{{ address.phone }}</p>
 
-              <button
-                class="text-amber-700 hover:text-amber-800 text-sm mt-3 flex items-center space-x-1"
-              >
-                <i class="fa-solid fa-plus"></i>
-                <span>Add New Address</span>
-              </button>
+                    <button
+                      class="text-amber-700 hover:text-amber-800 text-sm mt-3 flex items-center space-x-1"
+                    >
+                      <i class="fa-solid fa-plus"></i>
+                      <span>Add New Address</span>
+                    </button>
+                  </div>
+                }
+              }
             </div>
-            } }
-          </div>
           }
 
           <!-- Security -->
@@ -547,10 +315,10 @@
                 class="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition-colors font-semibold disabled:opacity-50"
               >
                 @if (isChangingPassword()) {
-                <i class="fa-solid fa-spinner fa-spin mr-2"></i>
-                <span>Changing...</span>
+                  <i class="fa-solid fa-spinner fa-spin mr-2"></i>
+                  <span>Changing...</span>
                 } @else {
-                <span>Change Password</span>
+                  <span>Change Password</span>
                 }
               </button>
             </form>
