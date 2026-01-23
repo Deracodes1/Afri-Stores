@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './Guards/auth-route-guard/auth-guard'; // Import the guard
+import { authGuard } from './Guards/auth-route-guard/auth-guard';
 
 export const routes: Routes = [
   {
@@ -58,7 +58,7 @@ export const routes: Routes = [
           import('./pages/user-account/prefrences/prefrences').then((m) => m.Prefrences),
       },
       {
-        path: 'address',
+        path: 'feedback',
         loadComponent: () =>
           import('./pages/user-account/feedback/feedback').then((m) => m.Feedback),
       },
