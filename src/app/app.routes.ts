@@ -53,7 +53,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/user-account/support/support').then((m) => m.Support),
       },
       {
-        path: 'prefrences',
+        path: 'preferences',
         loadComponent: () =>
           import('./pages/user-account/prefrences/prefrences').then((m) => m.Prefrences),
       },
