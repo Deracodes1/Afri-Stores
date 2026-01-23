@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './Guards/auth-route-guard/auth-guard';
-
+import { userAccountRoutesGuard } from './Guards/user-account-routes-guard/user-account-routes-guard';
 export const routes: Routes = [
   {
     path: '',
@@ -26,6 +26,7 @@ export const routes: Routes = [
     path: 'account',
     loadComponent: () => import('./pages/user-account/user-account').then((m) => m.UserAccount),
     canActivate: [authGuard], // this authguard protects the route
+    canActivateChild: [userAccountRoutesGuard],
     children: [
       {
         path: '',
