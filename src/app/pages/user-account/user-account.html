@@ -9,6 +9,7 @@
           <nav class="space-y-1">
             <button
               (click)="setActiveSection('profile')"
+              routerLink="profile"
               [class]="
                 activeSection() === 'profile'
                   ? 'w-full flex items-center space-x-3 px-4 py-3 bg-amber-50 text-amber-700 rounded-lg font-semibold transition-colors'
