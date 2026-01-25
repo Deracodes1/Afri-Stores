@@ -4,7 +4,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
-import { User, Address, Order } from '../../models/user.model';
+import { User, Address } from '../../models/user.model';
 import { ToastService } from '../../services/toast';
 @Component({
   selector: 'app-account',

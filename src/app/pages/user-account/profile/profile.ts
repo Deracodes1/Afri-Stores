@@ -37,10 +37,10 @@ export class Profile implements OnInit {
    * Profile form
    */
   profileForm: FormGroup = this.fb.group({
-    firstName: ['', [Validators.required, Validators.minLength(2)]],
-    lastName: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.pattern(/^\+?[\d\s-()]+$/)]],
+    firstName: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(2)]],
+    lastName: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(2)]],
+    email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
+    phone: [{ value: '', disabled: true }, [Validators.pattern(/^\+?[\d\s-()]+$/)]],
   });
 
   /**
@@ -72,8 +72,6 @@ export class Profile implements OnInit {
         phone: currentUser.phone || '',
       });
     }
-
-    this.orders.set(this.authService.getOrders());
   }
 
   /*
@@ -115,11 +113,11 @@ export class Profile implements OnInit {
         });
 
         this.isSavingProfile.set(false);
-
         if (result.success) {
           this.saveMessage.set('Profile updated successfully!');
-          this.toastService.success('Profile updated successfully!');
-          this.isEditingProfile.set(false);
+          this.toastService.success(this.saveMessage());
+          this.isEditingProfile.set(true);
+          this.toggleEditMode();
           this.loadUserData();
 
           setTimeout(() => this.saveMessage.set(''), 3000);

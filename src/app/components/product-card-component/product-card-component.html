@@ -1,8 +1,9 @@
 <div
+  (click)="openProductPage()"
   [class]="
     isSelectedState()
-      ? 'bg-amber-50 border-2 cursor-pointer border-amber-500 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden'
-      : 'bg-white border-2 cursor-pointer  border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden'
+      ? 'bg-amber-50 border-2 cursor-pointer border-amber-500 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full'
+      : 'bg-white border-2 cursor-pointer border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full'
   "
 >
   <img
@@ -11,27 +12,38 @@
     [alt]="product().name"
     class="w-full h-48 object-cover transition-transform duration-300 ease-in-out hover:scale-110"
   />
-  <div class="p-4">
-    <h3 class="font-bold text-xl text-gray-800 mb-2">{{ product().name }}</h3>
-    <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+  <div class="p-4 flex flex-col grow">
+    <!-- Product Name - Clamped to 2 lines with smaller responsive font -->
+    <h3 class="font-bold text-sm sm:text-base lg:text-lg text-gray-800 mb-2 line-clamp-2">
+      {{ product().name }}
+    </h3>
+
+    <!-- Description - Clamped to 2 lines -->
+    <p class="text-gray-600 text-xs sm:text-sm mb-4 line-clamp-2 grow">
       {{ product().description }}
     </p>
-    <div class="flex items-center justify-between">
-      <span class="text-2xl font-bold text-amber-700">${{ product().price }}</span>
+
+    <!-- Price and Cart Button - Pushed to bottom -->
+    <div
+      class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-2 mt-auto"
+    >
+      <span class="text-lg sm:text-xl lg:text-2xl font-bold text-amber-700"
+        >${{ product().price }}</span
+      >
       <button
-        (click)="sendClickedProductToCart()"
+        (click)="AddToCart($event, product())"
         [class]="
           isSelectedState()
-            ? 'bg-red-600 cursor--pointer text-white px-4 py-2 flex items-center rounded-lg hover:bg-red-700 transition-colors duration-200'
-            : 'bg-amber-700 cursor-pointer  text-white px-4 py-2 flex items-center rounded-lg hover:bg-amber-800 transition-colors duration-200'
+            ? 'bg-red-600 cursor-pointer text-white px-3 py-2 flex items-center justify-center rounded-lg hover:bg-red-700 transition-colors duration-200 text-xs sm:text-sm w-full sm:w-auto'
+            : 'bg-amber-700 cursor-pointer text-white px-3 py-2 flex items-center justify-center rounded-lg hover:bg-amber-800 transition-colors duration-200 text-xs sm:text-sm w-full sm:w-auto'
         "
       >
-        {{ isSelectedState() ? 'Remove' : 'Add to Cart' }}
+        <span>{{ isSelectedState() ? 'Remove' : 'Add' }}</span>
         <i
           [class]="
             isSelectedState()
-              ? 'fa-solid fa-minus text-2xl text-gray-300 ml-2'
-              : 'fa-solid fa-plus text-2xl text-gray-300 ml-2'
+              ? 'fa-solid fa-minus text-sm sm:text-base ml-2'
+              : 'fa-solid fa-plus text-sm sm:text-base ml-2'
           "
         ></i>
       </button>

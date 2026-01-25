@@ -1,5 +1,7 @@
 import { Component, inject, input, output } from '@angular/core';
 import { Product } from '../../models/products.model';
+import { Router } from '@angular/router';
+import { ProductsService } from '../../services/products';
 @Component({
   selector: 'app-product-card-component',
   imports: [],
@@ -8,9 +10,15 @@ import { Product } from '../../models/products.model';
 })
 export class ProductCardComponent {
   product = input.required<Product>();
-  outgoingData = output<Product>();
+  router = inject(Router);
+  productService = inject(ProductsService);
   isSelectedState = input<boolean>();
-  sendClickedProductToCart() {
-    this.outgoingData.emit(this.product());
+  // Handle add to cart click from product card
+  AddToCart(event: MouseEvent, product: Product) {
+    event.stopImmediatePropagation();
+    this.productService.updateSelectedProductsArray(product);
+  }
+  openProductPage() {
+    this.router.navigate(['/product', this.product().id]);
   }
 }

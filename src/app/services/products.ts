@@ -627,7 +627,27 @@ export class ProductsService {
   onSearch(searchTerm: string) {
     this.searchTerm.set(searchTerm);
   }
+  /**
+   * Get product by ID
+   */
+  getProductById(id: number): Product | undefined {
+    return this.products.find((p) => p.id === id);
+  }
 
+  /**
+   * Get related products by category (excluding current product)
+   */
+  getRelatedProducts(productId: number, limit: number = 4): Product[] {
+    const currentProduct = this.getProductById(productId);
+
+    if (!currentProduct || !currentProduct.category) {
+      return [];
+    }
+
+    return this.products
+      .filter((p) => p.category === currentProduct.category && p.id !== productId)
+      .slice(0, limit);
+  }
   // Add/Remove product from cart
   updateSelectedProductsArray(incomingProductObject: Product) {
     const currentCart = this.selectedProducts(); // Get current array

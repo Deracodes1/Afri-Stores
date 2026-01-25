@@ -65,6 +65,11 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'product/:id',
+    loadComponent: () =>
+      import('./pages/product-detail/product-detail').then((m) => m.ProductDetailComponent),
+  },
   // {
   //   path: 'wishlist',
   //   loadComponent: () => import('./wishlist/wishlist').then((m) => m.Wishlist),

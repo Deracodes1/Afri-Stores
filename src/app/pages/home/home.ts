@@ -21,11 +21,6 @@ export class Home implements OnInit {
   // Expose service data to template
   filteredProducts = this.productsService.filteredProducts;
 
-  // Handle add to cart click from product card
-  onAddToCart(product: Product) {
-    this.productsService.updateSelectedProductsArray(product);
-  }
-
   // Check if product is selected
   isProductSelected(productId: number): boolean {
     return this.productsService.isProductSelected(productId);
