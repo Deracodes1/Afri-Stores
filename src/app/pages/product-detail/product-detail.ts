@@ -59,41 +59,40 @@ export class ProductDetailComponent implements OnInit {
   });
 
   ngOnInit() {
-    // Listen to route params changes (important for related product clicks!)
+    // Subscribe to route params to get the product ID
     this.route.params.subscribe((params) => {
       const id = Number(params['id']);
       this.loadProduct(id);
-
-      // Scroll to top when product changes
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
   /**
-   * Load product data
+   * Load product data by ID
    */
-  loadProduct(id: number) {
+  loadProduct(productId: number) {
     this.isLoading.set(true);
 
-    // Simulate loading delay
-    setTimeout(() => {
-      const product = this.productsService.getProductById(id);
+    // Scroll to top when loading new product
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      if (product) {
-        this.product.set(product);
-        this.mainImage.set(product.images[0] || product.image);
+    this.productsService.getProductById(productId).subscribe({
+      next: (data) => {
+        this.product.set(data);
+        this.mainImage.set(data.images[0] || data.image);
         this.quantity.set(1);
+        this.isLoading.set(false);
 
         // Load related products
-        const related = this.productsService.getRelatedProducts(id, 4);
+        const related = this.productsService.getRelatedProducts(data.id, 4);
         this.relatedProducts.set(related);
-
+      },
+      error: (err) => {
+        console.error('Error fetching product:', err);
         this.isLoading.set(false);
-      } else {
         // Product not found - redirect to 404
         this.router.navigate(['/404']);
-      }
-    }, 500);
+      },
+    });
   }
 
   /**
@@ -102,6 +101,7 @@ export class ProductDetailComponent implements OnInit {
   selectImage(imageUrl: string) {
     this.mainImage.set(imageUrl);
   }
+
   // Check if product is selected
   isProductSelected(productId: number): boolean {
     return this.productsService.isProductSelected(productId);

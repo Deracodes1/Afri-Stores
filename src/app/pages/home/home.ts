@@ -1,9 +1,8 @@
 import { Component, inject, OnInit, signal, effect, untracked } from '@angular/core';
-import { Product } from '../../models/products.model';
 import { ProductsService } from '../../services/products';
 import { ProductCardComponent } from '../../components/product-card-component/product-card-component';
 import { SkeletonProductCard } from '../../components/skeleton-product-card/skeleton-product-card';
-import { catchError } from 'rxjs';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +16,8 @@ export class Home implements OnInit {
 
   // Loading state
   isLoading = signal(true);
-
+  // injecting toast service for notifications
+  toastService = inject(ToastService);
   // Expose service data to template
   filteredProducts = this.productsService.filteredProducts;
 
@@ -38,29 +38,20 @@ export class Home implements OnInit {
     this.isLoading.set(true);
     setTimeout(() => this.isLoading.set(false), 300);
   });
+
   ngOnInit(): void {
-    // Start loading
     this.isLoading.set(true);
 
-    // Simulate data loading (remove when real API is added)
-    setTimeout(() => {
-      this.isLoading.set(false);
-    }, 1500);
-
-    // Your existing API call (keep this for now)
-    this.productsService
-      .getADta()
-      .pipe(
-        catchError((err) => {
-          console.error(err);
-          // this.isLoading.set(false); // Stop loading on error
-          throw err;
-        }),
-      )
-      .subscribe((FakeProducts) => {
-        console.log(FakeProducts);
-        // When you have real products API:
-        // this.isLoading.set(false);
-      });
+    this.productsService.getAllProducts().subscribe({
+      next: (data) => {
+        this.productsService.products.set(data);
+        setTimeout(() => this.isLoading.set(false), 1500);
+      },
+      error: (err) => {
+        this.toastService.error(`Error fetching products: ${err.message}`);
+        console.error('Error fetching products:', err);
+        this.isLoading.set(false);
+      },
+    });
   }
 }

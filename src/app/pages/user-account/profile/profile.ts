@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { User, Order } from '../../../models/user.model';
 import { AuthService } from '../../../services/auth';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { ToastService } from '../../../services/toast';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
@@ -32,10 +32,12 @@ export class Profile implements OnInit {
   isChangingPassword = signal(false);
   ngOnInit(): void {
     this.loadUserData();
+    console.log(this.profileForm.controls['firstName'].value);
   }
   /**
    * Profile form
    */
+
   profileForm: FormGroup = this.fb.group({
     firstName: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(2)]],
     lastName: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(2)]],

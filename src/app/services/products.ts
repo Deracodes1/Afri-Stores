@@ -1,5 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { Product } from '../models/products.model';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from './toast';
 @Injectable({
@@ -7,587 +8,47 @@ import { ToastService } from './toast';
 })
 export class ProductsService {
   // All products data
-  products: Product[] = [
-    // Product 1
-    {
-      id: 1,
-      name: 'Premium Wireless Headphones',
-      description:
-        'Experience crystal-clear sound with our premium wireless headphones. Features active noise cancellation, 30-hour battery life, and comfortable over-ear design perfect for all-day listening.',
-      price: 129.99,
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=400&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=800&h=800&fit=crop',
-      ],
-      rating: 4.5,
-      totalReviews: 24,
-      inStock: true,
-      stock: 15,
-      category: 'Electronics',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'John Okoro',
-          reviewTitle: 'Best headphones I ever owned!',
-          comment:
-            'The sound quality is absolutely amazing and the noise cancellation works perfectly. I use these daily for work and the battery lasts forever. Highly recommend!',
-          rating: 5,
-          date: '2024-01-20T10:30:00',
-          verified: true,
-          helpfulCount: 12,
-        },
-        {
-          id: 2,
-          reviewerName: 'Mary Williams',
-          reviewTitle: 'Good but pricey',
-          comment:
-            'Great product overall. Sound quality is excellent and they are very comfortable. However, I think the price is a bit high for what you get.',
-          rating: 4,
-          date: '2024-01-15T14:20:00',
-          verified: true,
-          helpfulCount: 8,
-        },
-        {
-          id: 3,
-          reviewerName: 'David Chen',
-          reviewTitle: 'Comfortable for long use',
-          comment:
-            'I wear these for 6-8 hours a day and they never hurt my ears. The build quality is solid and the case is nice.',
-          rating: 5,
-          date: '2024-01-10T09:15:00',
-          verified: true,
-          helpfulCount: 5,
-        },
-      ],
-    },
-
-    // Product 2
-    {
-      id: 2,
-      name: 'Smart Watch Pro Series 8',
-      description:
-        'Stay connected with our latest smartwatch. Track your fitness goals, receive notifications, and monitor your health with advanced sensors. Water-resistant up to 50m.',
-      price: 299.99,
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=400&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=800&h=800&fit=crop',
-      ],
-      rating: 4.7,
-      totalReviews: 18,
-      inStock: true,
-      stock: 23,
-      category: 'Electronics',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Sarah Johnson',
-          reviewTitle: 'Perfect fitness companion',
-          comment:
-            'Tracks all my workouts perfectly and the heart rate monitor is very accurate. Battery lasts 2 days with heavy use.',
-          rating: 5,
-          date: '2024-01-18T16:45:00',
-          verified: true,
-          helpfulCount: 15,
-        },
-        {
-          id: 2,
-          reviewerName: 'Michael Brown',
-          reviewTitle: 'Great but expensive',
-          comment:
-            'Love all the features but wish it was more affordable. The health tracking features are top-notch.',
-          rating: 4,
-          date: '2024-01-12T11:30:00',
-          verified: true,
-          helpfulCount: 6,
-        },
-      ],
-    },
-
-    // Product 3
-    {
-      id: 3,
-      name: 'Ergonomic Laptop Stand ',
-      description:
-        'Premium aluminum laptop stand with adjustable height and angle. Improves posture and provides optimal viewing comfort during long work sessions. Compatible with all laptop sizes.',
-      price: 49.99,
-      image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=800&h=800&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=800&h=800&fit=crop',
-      ],
-      rating: 4.3,
-      totalReviews: 31,
-      inStock: true,
-      stock: 45,
-      category: 'Accessories',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Emily Davis',
-          reviewTitle: 'Improved my posture significantly',
-          comment:
-            'My neck pain is gone after using this for a week. Very sturdy and looks professional on my desk.',
-          rating: 5,
-          date: '2024-01-22T08:20:00',
-          verified: true,
-          helpfulCount: 20,
-        },
-        {
-          id: 2,
-          reviewerName: 'James Wilson',
-          reviewTitle: 'Solid build quality',
-          comment:
-            'Well made and stable. Holds my 15-inch laptop perfectly. The adjustability is smooth.',
-          rating: 4,
-          date: '2024-01-16T13:10:00',
-          verified: true,
-          helpfulCount: 9,
-        },
-        {
-          id: 3,
-          reviewerName: 'Lisa Anderson',
-          reviewTitle: 'Good but could be better',
-          comment:
-            'Does the job but the angle adjustment is a bit stiff. Otherwise happy with the purchase.',
-          rating: 4,
-          date: '2024-01-08T15:40:00',
-          verified: false,
-          helpfulCount: 3,
-        },
-      ],
-    },
-
-    // Product 4
-    {
-      id: 4,
-      name: 'Mechanical Gaming Keyboard',
-      description:
-        'Professional mechanical keyboard with customizable RGB backlighting. Blue tactile switches provide satisfying typing experience. Perfect for gaming and productivity with programmable keys.',
-      price: 159.99,
-      image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?w=800&h=800&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1595225476474-87563907a212?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1601445638532-3c6f6c3aa1d6?w=800&h=800&fit=crop',
-      ],
-      rating: 4.8,
-      totalReviews: 42,
-      inStock: true,
-      stock: 12,
-      category: 'Gaming',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Alex Martinez',
-          reviewTitle: 'Best keyboard for gaming!',
-          comment:
-            'The tactile feedback is perfect and the RGB lighting looks amazing. Keys are very responsive for gaming.',
-          rating: 5,
-          date: '2024-01-21T19:30:00',
-          verified: true,
-          helpfulCount: 28,
-        },
-        {
-          id: 2,
-          reviewerName: 'Ryan Thompson',
-          reviewTitle: 'Clicky and satisfying',
-          comment:
-            'Love the sound and feel of these switches. Great for typing too, not just gaming.',
-          rating: 5,
-          date: '2024-01-14T22:15:00',
-          verified: true,
-          helpfulCount: 18,
-        },
-        {
-          id: 3,
-          reviewerName: 'Nina Patel',
-          reviewTitle: 'A bit loud for office',
-          comment:
-            'Amazing keyboard but the clicking might be too loud if you work in a shared space. Otherwise perfect.',
-          rating: 4,
-          date: '2024-01-09T10:25:00',
-          verified: true,
-          helpfulCount: 11,
-        },
-      ],
-    },
-
-    // Product 5
-    {
-      id: 5,
-      name: 'Wireless Gaming Mouse - RGB',
-      description:
-        'High-precision wireless gaming mouse with 16000 DPI sensor. Rechargeable battery lasts up to 3 months. Ergonomic design reduces hand fatigue during extended gaming sessions.',
-      price: 79.99,
-      image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800&h=800&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1527814050087-3793815479db?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800&h=800&fit=crop',
-      ],
-      rating: 4.6,
-      totalReviews: 27,
-      inStock: true,
-      stock: 34,
-      category: 'Gaming',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Chris Lee',
-          reviewTitle: 'Extremely accurate',
-          comment:
-            'The sensor is incredibly precise. Great for FPS games. Battery life is as advertised.',
-          rating: 5,
-          date: '2024-01-19T20:10:00',
-          verified: true,
-          helpfulCount: 16,
-        },
-        {
-          id: 2,
-          reviewerName: 'Olivia White',
-          reviewTitle: 'Comfortable grip',
-          comment: 'Fits my hand perfectly and the weight is just right. The RGB looks cool too.',
-          rating: 5,
-          date: '2024-01-11T17:50:00',
-          verified: true,
-          helpfulCount: 10,
-        },
-      ],
-    },
-
-    // Product 6
-    {
-      id: 6,
-      name: 'USB-C Hub 7-in-1 Adapter',
-      description:
-        'Expand your connectivity with this versatile 7-in-1 USB-C hub. Includes HDMI 4K output, 3x USB 3.0 ports, SD/microSD card readers, and 100W power delivery pass-through charging.',
-      price: 34.99,
-      image: 'https://images.unsplash.com/photo-1591370874773-6702e8f12fd8?w=800&h=800&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1625948515291-69613efd103f?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1591370874773-6702e8f12fd8?w=800&h=800&fit=crop',
-      ],
-      rating: 4.4,
-      totalReviews: 19,
-      inStock: true,
-      stock: 67,
-      category: 'Accessories',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Tom Harris',
-          reviewTitle: 'Essential for my MacBook',
-          comment:
-            'Perfect solution for connecting all my peripherals. The 4K HDMI works flawlessly.',
-          rating: 5,
-          date: '2024-01-17T12:40:00',
-          verified: true,
-          helpfulCount: 14,
-        },
-        {
-          id: 2,
-          reviewerName: 'Jennifer Clark',
-          reviewTitle: 'Compact and functional',
-          comment: 'Small enough to carry around and has all the ports I need. Good build quality.',
-          rating: 4,
-          date: '2024-01-13T09:30:00',
-          verified: true,
-          helpfulCount: 7,
-        },
-      ],
-    },
-
-    // Product 7
-    {
-      id: 7,
-      name: 'Portable Bluetooth Speaker',
-      description:
-        'Powerful 360-degree sound in a compact, waterproof design. Perfect for outdoor adventures with 24-hour battery life. Built-in microphone for hands-free calls.',
-      price: 89.99,
-      image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&h=400&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1589003077984-894e133dabab?w=800&h=800&fit=crop',
-      ],
-      rating: 4.7,
-      totalReviews: 33,
-      inStock: true,
-      stock: 28,
-      category: 'Audio',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Kevin Moore',
-          reviewTitle: 'Amazing sound quality!',
-          comment:
-            'The bass is impressive for such a small speaker. Took it to the beach and it survived sand and water.',
-          rating: 5,
-          date: '2024-01-20T14:20:00',
-          verified: true,
-          helpfulCount: 22,
-        },
-        {
-          id: 2,
-          reviewerName: 'Amanda Taylor',
-          reviewTitle: 'Perfect for pool parties',
-          comment:
-            'Waterproof feature works great. Sound fills the entire backyard. Battery lasts all day.',
-          rating: 5,
-          date: '2024-01-15T18:35:00',
-          verified: true,
-          helpfulCount: 13,
-        },
-      ],
-    },
-
-    // Product 8
-    {
-      id: 8,
-      name: 'Wireless Charging Pad - Fast Charge',
-      description:
-        '15W fast wireless charging pad compatible with all Qi-enabled devices. Features LED indicator, overheat protection, and non-slip surface. Includes USB-C cable.',
-      price: 24.99,
-      image: 'https://images.unsplash.com/photo-1624823183493-ed5832f48f18?w=800&h=800&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1624823183493-ed5832f48f18?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1586892478025-2b5472316f22?w=800&h=800&fit=crop',
-      ],
-      rating: 4.2,
-      totalReviews: 15,
-      inStock: true,
-      stock: 89,
-      category: 'Accessories',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Brian Scott',
-          reviewTitle: 'Charges fast',
-          comment:
-            'Charges my phone from 20% to full in about 90 minutes. The LED light is not too bright at night.',
-          rating: 4,
-          date: '2024-01-18T11:15:00',
-          verified: true,
-          helpfulCount: 9,
-        },
-        {
-          id: 2,
-          reviewerName: 'Rachel Green',
-          reviewTitle: 'Works as expected',
-          comment: 'Simple and effective. No complaints. Wish it came in more colors though.',
-          rating: 4,
-          date: '2024-01-10T16:25:00',
-          verified: true,
-          helpfulCount: 4,
-        },
-      ],
-    },
-
-    // Product 9
-    {
-      id: 9,
-      name: 'Noise Cancelling Earbuds Pro',
-      description:
-        'True wireless earbuds with active noise cancellation. Crystal-clear calls with 4 built-in microphones. Touch controls and 6-hour battery per charge, 24 hours with charging case.',
-      price: 149.99,
-      image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&h=400&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1598331668826-20cecc596b86?w=800&h=800&fit=crop',
-      ],
-      rating: 4.9,
-      totalReviews: 56,
-      inStock: true,
-      stock: 8,
-      category: 'Audio',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Daniel King',
-          reviewTitle: 'Best earbuds ever!',
-          comment:
-            'Sound quality is outstanding. Noise cancellation blocks out everything on flights. Comfortable fit.',
-          rating: 5,
-          date: '2024-01-22T15:45:00',
-          verified: true,
-          helpfulCount: 31,
-        },
-        {
-          id: 2,
-          reviewerName: 'Sophie Miller',
-          reviewTitle: 'Perfect for workouts',
-          comment:
-            'Stay in my ears during runs and gym sessions. Sweat-resistant and the case charges fast.',
-          rating: 5,
-          date: '2024-01-19T07:50:00',
-          verified: true,
-          helpfulCount: 24,
-        },
-        {
-          id: 3,
-          reviewerName: 'Mark Robinson',
-          reviewTitle: 'Great but pricey',
-          comment: 'Amazing quality but a bit expensive. Worth it if you use earbuds daily.',
-          rating: 4,
-          date: '2024-01-14T21:10:00',
-          verified: true,
-          helpfulCount: 12,
-        },
-      ],
-    },
-
-    // Product 10
-    {
-      id: 10,
-      name: '4K Webcam with Ring Light',
-      description:
-        'Professional 4K webcam with built-in adjustable ring light. Auto-focus and HDR for perfect video quality. Dual microphones with noise reduction. Perfect for streaming and video calls.',
-      price: 119.99,
-      image: 'https://images.unsplash.com/photo-1635514569146-9a9607ecf303?w=800&h=800&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1635514569146-9a9607ecf303?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?w=800&h=800&fit=crop',
-      ],
-      rating: 4.5,
-      totalReviews: 22,
-      inStock: true,
-      stock: 19,
-      category: 'Electronics',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Jessica Adams',
-          reviewTitle: 'Perfect for streaming',
-          comment:
-            'The ring light makes such a difference. Video quality is crystal clear even in low light.',
-          rating: 5,
-          date: '2024-01-21T13:20:00',
-          verified: true,
-          helpfulCount: 18,
-        },
-        {
-          id: 2,
-          reviewerName: 'Paul Wright',
-          reviewTitle: 'Great for video calls',
-          comment:
-            'Huge upgrade from my laptop camera. Colleagues say they can see and hear me much better now.',
-          rating: 4,
-          date: '2024-01-16T10:40:00',
-          verified: true,
-          helpfulCount: 8,
-        },
-      ],
-    },
-
-    // Product 11
-    {
-      id: 11,
-      name: 'Portable SSD 1TB - USB 3.2',
-      description:
-        'Ultra-fast portable SSD with read speeds up to 1050MB/s. Compact aluminum design fits in your pocket. Password protection and 256-bit AES hardware encryption.',
-      price: 139.99,
-      image: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&h=400&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=800&h=800&fit=crop',
-      ],
-      rating: 4.8,
-      totalReviews: 38,
-      inStock: true,
-      stock: 41,
-      category: 'Storage',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Steven Baker',
-          reviewTitle: 'Lightning fast!',
-          comment:
-            'Transfer speeds are incredible. Moved 500GB in under 10 minutes. Very compact too.',
-          rating: 5,
-          date: '2024-01-20T09:30:00',
-          verified: true,
-          helpfulCount: 25,
-        },
-        {
-          id: 2,
-          reviewerName: 'Laura Nelson',
-          reviewTitle: 'Reliable and durable',
-          comment:
-            'Been using it for 6 months with no issues. Encryption feature is great for sensitive data.',
-          rating: 5,
-          date: '2024-01-12T14:55:00',
-          verified: true,
-          helpfulCount: 17,
-        },
-      ],
-    },
-
-    // Product 12
-    {
-      id: 12,
-      name: 'Adjustable Monitor Arm Mount',
-      description:
-        'Premium gas spring monitor arm for 13-32 inch displays. Full motion: tilt, swivel, and rotate. Cable management system included. Supports up to 8kg weight.',
-      price: 64.99,
-      image: 'https://images.unsplash.com/photo-1585792180666-f7347c490ee2?w=500&h=400&fit=crop',
-      images: [
-        'https://images.unsplash.com/photo-1585792180666-f7347c490ee2?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1593640495253-23196b27a87f?w=800&h=800&fit=crop',
-      ],
-      rating: 4.6,
-      totalReviews: 29,
-      inStock: false,
-      stock: 0,
-      category: 'Accessories',
-      reviews: [
-        {
-          id: 1,
-          reviewerName: 'Andrew Collins',
-          reviewTitle: 'Freed up so much desk space',
-          comment:
-            'Installation was easy and it holds my 27-inch monitor perfectly. Very smooth adjustments.',
-          rating: 5,
-          date: '2024-01-18T16:15:00',
-          verified: true,
-          helpfulCount: 19,
-        },
-        {
-          id: 2,
-          reviewerName: 'Michelle Turner',
-          reviewTitle: 'Solid construction',
-          comment:
-            'Well made and stable. The gas spring makes it easy to adjust height. Worth every penny.',
-          rating: 5,
-          date: '2024-01-11T12:30:00',
-          verified: true,
-          helpfulCount: 11,
-        },
-        {
-          id: 3,
-          reviewerName: 'Robert Hill',
-          reviewTitle: 'Good but installation tricky',
-          comment:
-            'Works great once installed but the instructions could be clearer. Took me 30 minutes.',
-          rating: 4,
-          date: '2024-01-07T08:45:00',
-          verified: true,
-          helpfulCount: 6,
-        },
-      ],
-    },
-  ];
+  products = signal<Product[]>([]);
   http = inject(HttpClient);
-  getADta() {
-    return this.http.get('https://jsonplaceholder.typicode.com/todos ');
+  private apiUrl = 'http://localhost:3000/products';
+
+  // Then add this method to load products and update the signal:
+  // loadProducts() {
+  //   this.getAllProducts().subscribe({
+  //     next: (data) => {
+  //       this.products.set(data); // this Updates the signal empty signal array!
+  //     },
+  //     error: (err) => {
+  //       console.error('Error loading products:', err);
+  //     },
+  //   });
+  // }
+
+  // Get all products
+  getAllProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl);
   }
+
+  // Get single product by ID
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  }
+
+  // BONUS: For later when you want to add products
+  addProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, product);
+  }
+
+  // BONUS: Update product
+  updateProduct(id: number, product: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
+  }
+
+  // BONUS: Delete product
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
   private toastService = inject(ToastService);
   // Cart/Selected products
   private selectedProducts = signal<Product[]>([]);
@@ -613,10 +74,10 @@ export class ProductsService {
     const term = this.searchTerm().toLowerCase().trim();
 
     if (term === '') {
-      return this.products;
+      return this.products();
     }
 
-    return this.products.filter(
+    return this.products().filter(
       (product) =>
         product.name.toLowerCase().includes(term) ||
         product.description.toLowerCase().includes(term),
@@ -629,22 +90,19 @@ export class ProductsService {
   }
   /**
    * Get product by ID
-   */
-  getProductById(id: number): Product | undefined {
-    return this.products.find((p) => p.id === id);
-  }
 
   /**
    * Get related products by category (excluding current product)
    */
   getRelatedProducts(productId: number, limit: number = 4): Product[] {
-    const currentProduct = this.getProductById(productId);
+    const allProducts = this.products(); // Get products from signal
+    const currentProduct = allProducts.find((p) => p.id === productId);
 
     if (!currentProduct || !currentProduct.category) {
       return [];
     }
 
-    return this.products
+    return allProducts
       .filter((p) => p.category === currentProduct.category && p.id !== productId)
       .slice(0, limit);
   }
@@ -659,8 +117,8 @@ export class ProductsService {
       this.selectedProducts.set(newCart); // ← Set new array!
       this.toastService.info(`${incomingProductObject.name} was removed from cart`);
     } else {
-      // Product doesn't exist - add it with quantity 1 (create new array with this product)
-      const newCart = [...currentCart, { ...incomingProductObject, quantity: 1 }];
+      // Product doesn't exist - add it (create new array with this product)
+      const newCart = [...currentCart, { ...incomingProductObject }];
       this.selectedProducts.set(newCart); // ← Set new array!
       this.toastService.success(`${incomingProductObject.name} added to cart!`);
     }
