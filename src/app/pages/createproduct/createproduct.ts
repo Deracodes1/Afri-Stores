@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,8 +15,8 @@ import { ToastService } from '../../services/toast';
 })
 export class CreateProductComponent implements OnInit {
   productForm!: FormGroup;
-  isSubmitting = false;
-  submitError: string | null = null;
+  isSubmitting = signal(false);
+  submitError = signal<string | null>(null);
   fb = inject(FormBuilder);
   ToastService = inject(ToastService);
   productService = inject(ProductsService);
@@ -35,7 +35,7 @@ export class CreateProductComponent implements OnInit {
       image: ['', [Validators.required, Validators.pattern(/^https?:\/\/.+/)]],
       inStock: [true, Validators.required],
       stock: [0, [Validators.required, Validators.min(0)]],
-      properties: this.fb.array([]), // Dynamic properties array
+      properties: this.fb.array([], [Validators.required, Validators.minLength(1)]), // Dynamic properties array
     });
   }
 
@@ -47,8 +47,8 @@ export class CreateProductComponent implements OnInit {
   // Add new property field
   addProperty(): void {
     const propertyGroup = this.fb.group({
-      color: ['', [Validators.required, Validators.minLength(2)]],
-      weight: ['', [Validators.required, Validators.minLength(1)]],
+      key: ['', [Validators.required, Validators.minLength(2)]],
+      value: ['', [Validators.required, Validators.minLength(1)]],
     });
     this.properties.push(propertyGroup);
   }
@@ -100,7 +100,7 @@ export class CreateProductComponent implements OnInit {
     }
 
     if (field.hasError('required')) {
-      return `${fieldName === 'color' ? 'Product color' : 'Product weight'} is required`;
+      return `${fieldName === 'key' ? 'Property name' : 'Property value'} is required`;
     }
     if (field.hasError('minlength')) {
       return `Must be at least ${field.errors?.['minlength'].requiredLength} characters`;
@@ -150,16 +150,19 @@ export class CreateProductComponent implements OnInit {
         group.get(key)?.markAsTouched();
       });
     });
-
     if (this.productForm.invalid) {
-      this.submitError = 'Please fix the errors above before submitting';
+      this.submitError.set('Please fix the errors above before submitting');
+      return;
+    }
+    if (this.properties.invalid) {
+      this.submitError.set('Please, you need to add at least one property');
       return;
     }
 
-    this.isSubmitting = true;
-    this.submitError = null;
+    this.isSubmitting.set(true);
+    this.submitError.set(null);
 
-    // Prepare product data using CreateProductDto
+    // Prepare product data using CreateProductDto model
     const formValue = this.productForm.value;
     const productData: CreateProductDto = {
       name: formValue.name,
@@ -171,7 +174,8 @@ export class CreateProductComponent implements OnInit {
       category: formValue.category || undefined,
     };
 
-    // Call the service - it will return a complete Product object from the backend
+    // Calling the addproduct method in the product service to
+    // add the newly created product to the DB
     this.productService.addProduct(productData).subscribe({
       next: (createdProduct: Product) => {
         console.log('Product created successfully:', createdProduct);
@@ -181,20 +185,18 @@ export class CreateProductComponent implements OnInit {
       },
       error: (error) => {
         // console.error('Error creating product:', error);
-        this.submitError = 'Failed to create product. Please try again.';
-        this.ToastService.error(
-          'Error creating product, check your internet connection and try again',
-        );
-        this.isSubmitting = false;
+        this.submitError.set('Failed to create product. Please try again.');
+        this.ToastService.error('Product created successfully');
+        this.isSubmitting.set(false);
       },
       complete: () => {
-        this.isSubmitting = false;
+        this.isSubmitting.set(false);
       },
     });
   }
 
   // Cancel and go back
   onCancel(): void {
-    this.router.navigate(['/products']);
+    this.router.navigate(['/home']);
   }
 }

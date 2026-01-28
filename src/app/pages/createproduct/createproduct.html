@@ -341,35 +341,35 @@
                     <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <input
-                          formControlName="color"
+                          formControlName="key"
                           type="text"
-                          placeholder="Product color (e.g. Blue)"
+                          placeholder="property name (e.g. color)"
                           class="w-full px-3 py-2 rounded-lg border transition-all duration-200"
-                          [class.border-slate-300]="!getPropertyError($index, 'color')"
-                          [class.border-red-500]="!!getPropertyError($index, 'color')"
-                          [class.focus:ring-2]="!getPropertyError($index, 'color')"
-                          [class.focus:ring-purple-500]="!getPropertyError($index, 'color')"
+                          [class.border-slate-300]="!getPropertyError($index, 'key')"
+                          [class.border-red-500]="!!getPropertyError($index, 'key')"
+                          [class.focus:ring-2]="!getPropertyError($index, 'key')"
+                          [class.focus:ring-purple-500]="!getPropertyError($index, 'key')"
                         />
-                        @if (getPropertyError($index, 'color')) {
+                        @if (getPropertyError($index, 'key')) {
                           <p class="mt-1 text-xs text-red-600">
-                            {{ getPropertyError($index, 'color') }}
+                            {{ getPropertyError($index, 'key') }}
                           </p>
                         }
                       </div>
                       <div>
                         <input
-                          formControlName="weight"
+                          formControlName="value"
                           type="text"
-                          placeholder="Product weight (e.g. 50)"
+                          placeholder="Property value (e.g. Blue)"
                           class="w-full px-3 py-2 rounded-lg border transition-all duration-200"
-                          [class.border-slate-300]="!getPropertyError($index, 'weight')"
-                          [class.border-red-500]="!!getPropertyError($index, 'weight')"
-                          [class.focus:ring-2]="!getPropertyError($index, 'weight')"
-                          [class.focus:ring-purple-500]="!getPropertyError($index, 'weight')"
+                          [class.border-slate-300]="!getPropertyError($index, 'value')"
+                          [class.border-red-500]="!!getPropertyError($index, 'value')"
+                          [class.focus:ring-2]="!getPropertyError($index, 'value')"
+                          [class.focus:ring-purple-500]="!getPropertyError($index, 'value')"
                         />
-                        @if (getPropertyError($index, 'weight')) {
+                        @if (getPropertyError($index, 'value')) {
                           <p class="mt-1 text-xs text-red-600">
-                            {{ getPropertyError($index, 'weight') }}
+                            {{ getPropertyError($index, 'value') }}
                           </p>
                         }
                       </div>
@@ -409,25 +409,25 @@
               type="button"
               (click)="onCancel()"
               class="flex-1 px-6 py-3 bg-white border-2 border-slate-300 text-slate-700 rounded-xl hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 font-semibold"
-              [disabled]="isSubmitting"
+              [disabled]="isSubmitting()"
             >
               Cancel
             </button>
             <button
               type="submit"
               class="flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-              [class.bg-gradient-to-r]="!isSubmitting"
-              [class.from-indigo-600]="!isSubmitting"
-              [class.to-blue-600]="!isSubmitting"
-              [class.hover:from-indigo-700]="!isSubmitting"
-              [class.hover:to-blue-700]="!isSubmitting"
-              [class.text-white]="!isSubmitting"
-              [class.bg-slate-300]="isSubmitting"
-              [class.text-slate-500]="isSubmitting"
-              [class.cursor-not-allowed]="isSubmitting"
-              [disabled]="isSubmitting"
+              [class.bg-gradient-to-r]="!isSubmitting()"
+              [class.from-indigo-600]="!isSubmitting()"
+              [class.to-blue-600]="!isSubmitting()"
+              [class.hover:from-indigo-700]="!isSubmitting()"
+              [class.hover:to-blue-700]="!isSubmitting()"
+              [class.text-white]="!isSubmitting()"
+              [class.bg-slate-300]="isSubmitting()"
+              [class.text-slate-500]="isSubmitting()"
+              [class.cursor-not-allowed]="isSubmitting()"
+              [disabled]="isSubmitting()"
             >
-              @if (!isSubmitting) {
+              @if (!isSubmitting()) {
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     stroke-linecap="round"
@@ -437,7 +437,7 @@
                   />
                 </svg>
               }
-              @if (isSubmitting) {
+              @if (isSubmitting()) {
                 <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
                   <circle
                     class="opacity-25"
@@ -454,12 +454,12 @@
                   ></path>
                 </svg>
               }
-              {{ isSubmitting ? 'Creating Product...' : 'Create Product' }}
+              {{ isSubmitting() ? 'Creating Product...' : 'Create Product' }}
             </button>
           </div>
 
           <!-- Error Message -->
-          @if (submitError) {
+          @if (submitError()) {
             <div
               class="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3 animate-shake"
             >
@@ -472,7 +472,7 @@
               </svg>
               <div>
                 <p class="font-semibold text-red-800">Error</p>
-                <p class="text-sm text-red-700 mt-1">{{ submitError }}</p>
+                <p class="text-sm text-red-700 mt-1">{{ submitError() }}</p>
               </div>
             </div>
           }
@@ -604,8 +604,8 @@
                     <dl class="space-y-2">
                       @for (prop of previewData.properties; track $index) {
                         <div class="flex justify-between text-sm">
-                          <dt class="text-slate-600 font-medium">{{ prop.color }}:</dt>
-                          <dd class="text-slate-900 font-semibold">{{ prop.weight }}</dd>
+                          <dt class="text-slate-600 font-medium">{{ prop.key }}:</dt>
+                          <dd class="text-slate-900 font-semibold">{{ prop.value }}</dd>
                         </div>
                       }
                     </dl>
