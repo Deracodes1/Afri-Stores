@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } fr
 import { Router } from '@angular/router';
 import { ProductsService } from '../../services/products';
 import { Product, CreateProductDto } from '../../models/products.model';
+import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-create-product',
@@ -17,6 +18,7 @@ export class CreateProductComponent implements OnInit {
   isSubmitting = false;
   submitError: string | null = null;
   fb = inject(FormBuilder);
+  ToastService = inject(ToastService);
   productService = inject(ProductsService);
   router = inject(Router);
 
@@ -45,8 +47,8 @@ export class CreateProductComponent implements OnInit {
   // Add new property field
   addProperty(): void {
     const propertyGroup = this.fb.group({
-      key: ['', [Validators.required, Validators.minLength(2)]],
-      value: ['', [Validators.required, Validators.minLength(1)]],
+      color: ['', [Validators.required, Validators.minLength(2)]],
+      weight: ['', [Validators.required, Validators.minLength(1)]],
     });
     this.properties.push(propertyGroup);
   }
@@ -98,7 +100,7 @@ export class CreateProductComponent implements OnInit {
     }
 
     if (field.hasError('required')) {
-      return `${fieldName === 'key' ? 'Property name' : 'Property value'} is required`;
+      return `${fieldName === 'color' ? 'Product color' : 'Product weight'} is required`;
     }
     if (field.hasError('minlength')) {
       return `Must be at least ${field.errors?.['minlength'].requiredLength} characters`;
@@ -173,12 +175,16 @@ export class CreateProductComponent implements OnInit {
     this.productService.addProduct(productData).subscribe({
       next: (createdProduct: Product) => {
         console.log('Product created successfully:', createdProduct);
-        // Navigate back to products list or show success message
-        this.router.navigate(['/products']);
+        // show success message and Navigate back to products list(home page)
+        this.ToastService.info('Product created successfully');
+        this.router.navigate(['/home']);
       },
       error: (error) => {
-        console.error('Error creating product:', error);
+        // console.error('Error creating product:', error);
         this.submitError = 'Failed to create product. Please try again.';
+        this.ToastService.error(
+          'Error creating product, check your internet connection and try again',
+        );
         this.isSubmitting = false;
       },
       complete: () => {
