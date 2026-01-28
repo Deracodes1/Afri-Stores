@@ -75,6 +75,12 @@ export const routes: Routes = [
   //   loadComponent: () => import('./wishlist/wishlist').then((m) => m.Wishlist),
   //   canActivate: [authGuard]  // Also protected
   // }
+  {
+    path: 'createproduct',
+    loadComponent: () =>
+      import('./pages/createproduct/createproduct').then((m) => m.CreateProductComponent),
+  },
+
   // 404 Route - this serves as the fallback/error state route!
   {
     path: '**',

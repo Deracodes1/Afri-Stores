@@ -1,5 +1,5 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { Product } from '../models/products.model';
+import { Product, CreateProductDto } from '../models/products.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from './toast';
@@ -12,18 +12,6 @@ export class ProductsService {
   http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/products';
 
-  // Then add this method to load products and update the signal:
-  // loadProducts() {
-  //   this.getAllProducts().subscribe({
-  //     next: (data) => {
-  //       this.products.set(data); // this Updates the signal empty signal array!
-  //     },
-  //     error: (err) => {
-  //       console.error('Error loading products:', err);
-  //     },
-  //   });
-  // }
-
   // Get all products
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
@@ -34,20 +22,39 @@ export class ProductsService {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
-  // BONUS: For later when you want to add products
-  addProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+  //  For adding products to the DB
+  addProduct(productDto: CreateProductDto): Observable<Product> {
+    const fullProduct: Omit<Product, 'id'> = {
+      // From DTO object gotten from the product creation page i am patching up some data that was
+      // not asked for when creating a new product but is needed to send the db to match other existing
+      // properties
+      name: productDto.name,
+      description: productDto.description,
+      price: productDto.price,
+      image: productDto.image,
+      inStock: productDto.inStock,
+      stock: productDto.stock,
+      category: productDto.category || '',
+
+      // YOU must add these
+      images: [productDto.image],
+      rating: 0,
+      totalReviews: 0,
+      reviews: [],
+    };
+
+    return this.http.post<Product>(this.apiUrl, fullProduct);
   }
 
-  // BONUS: Update product
-  updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
-  }
+  // // method for Updating product
+  // updateProduct(id: number, product: Product): Observable<Product> {
+  //   return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
+  // }
 
-  // BONUS: Delete product
-  deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+  // //method for deleting product
+  // deleteProduct(id: number): Observable<void> {
+  //   return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  // }
 
   private toastService = inject(ToastService);
   // Cart/Selected products

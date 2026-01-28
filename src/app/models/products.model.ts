@@ -4,18 +4,18 @@ export interface Product {
   description: string;
   price: number;
   image: string; // Main display image
-  images: string[]; // Gallery images (including main)
-  quantity?: number; // Cart quantity
+  images: string[];
+  quantity?: number;
 
   // Product details
-  rating: number; // Average rating (0-5)
-  totalReviews: number; // Total review count
-  inStock: boolean; // Availability
-  stock: number; // Available quantity
-  category?: string; // Optional category
+  rating: number; // Optional - starts at 0 or calculated later
+  totalReviews: number;
+  inStock: boolean;
+  stock: number; // Available quantity - required
+  category: string;
 
   // Reviews
-  reviews: Review[];
+  reviews: Review[]; // Optional - new products have no reviews
 }
 
 export interface Review {
@@ -27,4 +27,15 @@ export interface Review {
   date: string; // ISO date string
   verified?: boolean; // Verified purchase badge
   helpfulCount?: number; // How many found helpful
+}
+
+// Create Product DTO - Only fields needed for new product creation
+export interface CreateProductDto {
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  inStock: boolean;
+  stock: number;
+  category: string;
 }
