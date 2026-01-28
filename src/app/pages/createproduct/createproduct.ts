@@ -17,6 +17,7 @@ export class CreateProductComponent implements OnInit {
   productForm!: FormGroup;
   isSubmitting = signal(false);
   submitError = signal<string | null>(null);
+  successfullMessage = signal<string | null>(null);
   fb = inject(FormBuilder);
   ToastService = inject(ToastService);
   productService = inject(ProductsService);
@@ -24,6 +25,7 @@ export class CreateProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.isProuductInStock();
   }
 
   private initForm(): void {
@@ -52,7 +54,19 @@ export class CreateProductComponent implements OnInit {
     });
     this.properties.push(propertyGroup);
   }
-
+  private isProuductInStock() {
+    const stockAmount = this.productForm.get('stock');
+    // subscribing to changes in the in-stock status and
+    // validating(enbale/disable) stock amount field
+    this.productForm.get('inStock')?.valueChanges.subscribe((inStock: boolean) => {
+      if (inStock) {
+        stockAmount?.enable();
+      } else {
+        stockAmount?.disable();
+        stockAmount?.setValue(0);
+      }
+    });
+  }
   // Remove property field at index
   removeProperty(index: number): void {
     this.properties.removeAt(index);
@@ -181,7 +195,10 @@ export class CreateProductComponent implements OnInit {
         console.log('Product created successfully:', createdProduct);
         // show success message and Navigate back to products list(home page)
         this.ToastService.info('Product created successfully');
-        this.router.navigate(['/home']);
+        this.successfullMessage.set('Product created successfully');
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        }, 1000);
       },
       error: (error) => {
         // console.error('Error creating product:', error);
