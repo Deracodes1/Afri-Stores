@@ -20,6 +20,10 @@ export class ProductCardComponent {
     this.productService.updateSelectedProductsArray(productWithQuantity);
   }
   openProductPage() {
-    this.router.navigate(['/product', this.product().id]);
+    this.router.navigate(['/product', this.product().id], {
+      queryParams: {
+        catgeory: this.product().category,
+      },
+    });
   }
 }

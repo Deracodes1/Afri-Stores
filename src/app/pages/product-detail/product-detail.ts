@@ -27,6 +27,8 @@ export class ProductDetailComponent implements OnInit {
   private router = inject(Router);
   private productsService = inject(ProductsService);
   private toastService = inject(ToastService);
+  // the product category extracted from the query params map
+  paramsCategory: string | undefined = '';
 
   // Product data
   product = signal<Product | null>(null);
@@ -64,6 +66,7 @@ export class ProductDetailComponent implements OnInit {
       const id = Number(params['id']);
       this.loadProduct(id);
     });
+    this.paramsCategory = this.route.snapshot.queryParamMap.get('category') || undefined;
   }
 
   /**
