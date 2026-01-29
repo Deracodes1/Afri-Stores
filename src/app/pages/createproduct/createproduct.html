@@ -24,11 +24,13 @@
         Back to Products
       </button>
       <h1
-        class="text-4xl font-boldbg-linear-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent"
+        class="text-3xl sm:text-4xl font-bold bg-linear-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent"
       >
         Create New Product
       </h1>
-      <p class="mt-2 text-slate-600">Add a new item to your storefront with live preview</p>
+      <p class="mt-2 text-sm sm:text-base text-slate-600">
+        Add a new item to your storefront with live preview
+      </p>
     </div>
 
     <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="space-y-6">
@@ -36,8 +38,10 @@
         <!-- Left Column - Form -->
         <div class="space-y-6">
           <!-- General Details Card -->
-          <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 animate-slide-up">
-            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center">
+          <div
+            class="bg-white rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-6 animate-slide-up"
+          >
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-6 flex items-center">
               <span class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
                 <svg
                   class="w-5 h-5 text-indigo-600"
@@ -270,13 +274,14 @@
 
           <!-- Dynamic Properties Card -->
           <div
-            class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 animate-slide-up"
+            class="bg-white rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-6 animate-slide-up"
             style="animation-delay: 0.1s"
           >
-            <div class="flex items-center justify-between mb-6">
-              <h2 class="text-2xl font-bold text-slate-800 flex items-center">
+            <!-- Mobile: Stack title and button -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-800 flex items-center">
                 <span
-                  class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3"
+                  class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3 shrink-0"
                 >
                   <svg
                     class="w-5 h-5 text-purple-600"
@@ -292,14 +297,19 @@
                     />
                   </svg>
                 </span>
-                Properties
+                <span class="truncate">Properties</span>
               </h2>
               <button
                 type="button"
                 (click)="addProperty()"
-                class="px-4 py-2 bg-linear-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2 font-medium"
+                class="w-full sm:w-auto px-4 py-2 bg-linear-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
               >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  class="w-4 h-4 sm:w-5 sm:h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -307,7 +317,7 @@
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                   />
                 </svg>
-                Add Property
+                <span>Add Property</span>
               </button>
             </div>
 
@@ -326,8 +336,10 @@
                     d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
                   />
                 </svg>
-                <p class="font-medium">No properties added yet</p>
-                <p class="text-sm mt-1">Click "Add Property" to include custom attributes</p>
+                <p class="font-medium text-sm sm:text-base">No properties added yet</p>
+                <p class="text-xs sm:text-sm mt-1">
+                  Click "Add Property" to include custom attributes
+                </p>
               </div>
             }
 
@@ -335,16 +347,16 @@
               @for (property of properties.controls; track $index) {
                 <div
                   [formGroupName]="$index"
-                  class="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:border-indigo-300 transition-all duration-200 animate-slide-up"
+                  class="bg-slate-50 rounded-xl p-3 sm:p-4 border border-slate-200 hover:border-indigo-300 transition-all duration-200 animate-slide-up"
                 >
-                  <div class="flex items-start gap-3">
+                  <div class="flex items-start gap-2 sm:gap-3">
                     <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <input
                           formControlName="key"
                           type="text"
-                          placeholder="property name (e.g. color)"
-                          class="w-full px-3 py-2 rounded-lg border transition-all duration-200"
+                          placeholder="Property name (e.g. Color)"
+                          class="w-full px-3 py-2 text-sm sm:text-base rounded-lg border transition-all duration-200"
                           [class.border-slate-300]="!getPropertyError($index, 'key')"
                           [class.border-red-500]="!!getPropertyError($index, 'key')"
                           [class.focus:ring-2]="!getPropertyError($index, 'key')"
@@ -361,7 +373,7 @@
                           formControlName="value"
                           type="text"
                           placeholder="Property value (e.g. Blue)"
-                          class="w-full px-3 py-2 rounded-lg border transition-all duration-200"
+                          class="w-full px-3 py-2 text-sm sm:text-base rounded-lg border transition-all duration-200"
                           [class.border-slate-300]="!getPropertyError($index, 'value')"
                           [class.border-red-500]="!!getPropertyError($index, 'value')"
                           [class.focus:ring-2]="!getPropertyError($index, 'value')"
@@ -381,7 +393,7 @@
                       title="Remove property"
                     >
                       <svg
-                        class="w-5 h-5 group-hover:scale-110 transition-transform"
+                        class="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -481,7 +493,7 @@
               <svg class="w-6 h-6 text-green-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                   clip-rule="evenodd"
                 />
               </svg>
@@ -496,12 +508,15 @@
         <!-- Right Column - Live Preview -->
         <div class="lg:sticky lg:top-8 lg:self-start">
           <div
-            class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 animate-slide-up"
+            class="bg-white rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-6 animate-slide-up"
             style="animation-delay: 0.15s"
           >
-            <div class="flex items-center justify-between mb-6">
-              <h2 class="text-2xl font-bold text-slate-800 flex items-center">
-                <span class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+            <!-- Mobile: Stack title and badge -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-800 flex items-center">
+                <span
+                  class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3 shrink-0"
+                >
                   <svg
                     class="w-5 h-5 text-green-600"
                     fill="none"
@@ -522,9 +537,10 @@
                     />
                   </svg>
                 </span>
-                Live Preview
+                <span class="truncate">Live Preview</span>
               </h2>
-              <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full"
+              <span
+                class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full w-fit"
                 >NEW ARRIVAL</span
               >
             </div>
@@ -546,7 +562,7 @@
                   <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center">
                       <svg
-                        class="w-16 h-16 mx-auto text-slate-400 mb-2"
+                        class="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-slate-400 mb-2"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -558,7 +574,9 @@
                           d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                         />
                       </svg>
-                      <p class="text-slate-500 text-sm font-medium">Product Image Placeholder</p>
+                      <p class="text-slate-500 text-xs sm:text-sm font-medium px-2">
+                        Product Image Placeholder
+                      </p>
                     </div>
                   </div>
                 }
@@ -566,8 +584,10 @@
 
               <!-- Product Info -->
               <div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-2">{{ previewData.name }}</h3>
-                <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+                  {{ previewData.name }}
+                </h3>
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
                   {{ previewData.description }}
                 </p>
 
@@ -584,14 +604,14 @@
 
                 <!-- Price -->
                 <div class="flex items-baseline gap-2 mb-4">
-                  <span class="text-3xl font-bold text-indigo-600"
+                  <span class="text-2xl sm:text-3xl font-bold text-indigo-600"
                     >${{ previewData.price | number: '1.2-2' }}</span
                   >
-                  <span class="text-slate-500 text-sm">USD</span>
+                  <span class="text-slate-500 text-xs sm:text-sm">USD</span>
                 </div>
 
                 <!-- Stock Status -->
-                <div class="flex items-center gap-2 mb-4">
+                <div class="flex flex-wrap items-center gap-2 mb-4 text-xs sm:text-sm">
                   <div class="flex items-center gap-1.5">
                     <span
                       class="w-2.5 h-2.5 rounded-full"
@@ -599,26 +619,26 @@
                       [class.bg-red-500]="!previewData.inStock"
                     ></span>
                     <span
-                      class="text-sm font-semibold"
+                      class="font-semibold"
                       [class.text-green-700]="previewData.inStock"
                       [class.text-red-700]="!previewData.inStock"
                     >
                       {{ previewData.inStock ? 'In Stock' : 'Out of Stock' }}
                     </span>
                   </div>
-                  <span class="text-slate-500 text-sm">•</span>
-                  <span class="text-slate-600 text-sm"
-                    >{{ previewData.stock }} units available</span
-                  >
+                  <span class="text-slate-500">•</span>
+                  <span class="text-slate-600">{{ previewData.stock }} units available</span>
                 </div>
 
                 <!-- Properties -->
                 @if (previewData.properties.length > 0) {
                   <div class="border-t border-slate-200 pt-4 mb-4">
-                    <h4 class="text-sm font-semibold text-slate-700 mb-3">Product Details</h4>
+                    <h4 class="text-xs sm:text-sm font-semibold text-slate-700 mb-3">
+                      Product Details
+                    </h4>
                     <dl class="space-y-2">
                       @for (prop of previewData.properties; track $index) {
-                        <div class="flex justify-between text-sm">
+                        <div class="flex justify-between text-xs sm:text-sm">
                           <dt class="text-slate-600 font-medium">{{ prop.key }}:</dt>
                           <dd class="text-slate-900 font-semibold">{{ prop.value }}</dd>
                         </div>
@@ -630,12 +650,17 @@
                 <!-- Add to Cart Button -->
                 <button
                   type="button"
-                  class="w-full py-3 bg-linear-to-r from-indigo-600 to-blue-600 text-white rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2"
+                  class="w-full py-2.5 sm:py-3 bg-linear-to-r from-indigo-600 to-blue-600 text-white rounded-xl font-semibold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2"
                   [disabled]="!previewData.inStock"
                   [class.opacity-50]="!previewData.inStock"
                   [class.cursor-not-allowed]="!previewData.inStock"
                 >
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    class="w-4 h-4 sm:w-5 sm:h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -648,10 +673,10 @@
               </div>
 
               <!-- Pro Tip -->
-              <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-6">
-                <div class="flex items-start gap-3">
+              <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 sm:p-4 mt-6">
+                <div class="flex items-start gap-2 sm:gap-3">
                   <svg
-                    class="w-5 h-5 text-blue-600 shrink-0 mt-0.5"
+                    class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 shrink-0 mt-0.5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -662,7 +687,7 @@
                     />
                   </svg>
                   <div>
-                    <p class="text-sm font-semibold text-blue-900">Pro Tip</p>
+                    <p class="text-xs sm:text-sm font-semibold text-blue-900">Pro Tip</p>
                     <p class="text-xs text-blue-700 mt-1">
                       Ensure all fields are complete under 55 characters and your product name is
                       concise for better mobile viewing.

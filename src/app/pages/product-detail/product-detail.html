@@ -25,13 +25,13 @@
         <ol class="flex items-center space-x-2 text-gray-600">
           <li><a routerLink="/home" class="hover:text-amber-700">Home</a></li>
           <li><i class="fa-solid fa-chevron-right text-xs"></i></li>
-          @if (paramsCategory) {
+          @if (paramsCategory()) {
             <li>
               <a
                 routerLink="/home"
                 [queryParams]="{ category: paramsCategory }"
                 class="hover:text-amber-700"
-                >{{ paramsCategory }}</a
+                >{{ paramsCategory() }}</a
               >
             </li>
             <li><i class="fa-solid fa-chevron-right text-xs"></i></li>
@@ -101,9 +101,9 @@
         <div class="space-y-6">
           <!-- Brand/Collection & Rating -->
           <div>
-            @if (paramsCategory) {
+            @if (paramsCategory()) {
               <p class="text-amber-700 font-semibold text-sm uppercase tracking-wide mb-2">
-                {{ paramsCategory }}
+                {{ paramsCategory() }}
               </p>
             }
 

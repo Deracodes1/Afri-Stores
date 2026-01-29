@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, OnInit, signal, computed, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Product } from '../../models/products.model';
@@ -8,6 +8,7 @@ import { RelativeTimePipe } from '../../pipes/relative-time-pipe';
 import { ProductCardComponent } from '../../components/product-card-component/product-card-component';
 import { getInitials } from '../../utils/string-utils';
 import { ToastService } from '../../services/toast';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -28,7 +29,7 @@ export class ProductDetailComponent implements OnInit {
   private productsService = inject(ProductsService);
   private toastService = inject(ToastService);
   // the product category extracted from the query params map
-  paramsCategory: string | undefined = '';
+  paramsCategory = signal<string | null>('');
 
   // Product data
   product = signal<Product | null>(null);
@@ -66,7 +67,12 @@ export class ProductDetailComponent implements OnInit {
       const id = Number(params['id']);
       this.loadProduct(id);
     });
-    this.paramsCategory = this.route.snapshot.queryParamMap.get('category') || undefined;
+    this.route.queryParamMap
+      .pipe(filter((params) => params.has('category')))
+      .subscribe((params) => {
+        this.paramsCategory.set(params.get('category'));
+        alert(this.paramsCategory());
+      });
   }
 
   /**

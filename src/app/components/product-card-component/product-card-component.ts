@@ -22,7 +22,7 @@ export class ProductCardComponent {
   openProductPage() {
     this.router.navigate(['/product', this.product().id], {
       queryParams: {
-        catgeory: this.product().category,
+        category: this.product().category,
       },
     });
   }
