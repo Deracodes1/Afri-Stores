@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed, Signal } from '@angular/core';
+import { Component, inject, OnInit, signal, computed, Signal, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Product } from '../../models/products.model';
@@ -9,6 +9,7 @@ import { ProductCardComponent } from '../../components/product-card-component/pr
 import { getInitials } from '../../utils/string-utils';
 import { ToastService } from '../../services/toast';
 import { filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-product-detail',
@@ -62,19 +63,24 @@ export class ProductDetailComponent implements OnInit {
   });
 
   ngOnInit() {
+    this.getProductIdAndQueryParams();
+  }
+  getProductIdAndQueryParams() {
     // Subscribe to route params to get the product ID
     this.route.params.subscribe((params) => {
       const id = Number(params['id']);
       this.loadProduct(id);
     });
+    // Subscribe to route paramsMap to get the product category
     this.route.queryParamMap
-      .pipe(filter((params) => params.has('category')))
+      .pipe(
+        filter((params) => params.has('category')),
+        takeUntilDestroyed(),
+      )
       .subscribe((params) => {
         this.paramsCategory.set(params.get('category'));
-        alert(this.paramsCategory());
       });
   }
-
   /**
    * Load product data by ID
    */
@@ -189,4 +195,7 @@ export class ProductDetailComponent implements OnInit {
     const prod = this.product();
     return prod ? this.productsService.isProductSelected(prod.id) : false;
   }
+  // ngOnDestroy(): void {
+  //   this.paramsCategory;
+  // }
 }
