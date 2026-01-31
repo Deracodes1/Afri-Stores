@@ -73,10 +73,7 @@ export class ProductDetailComponent implements OnInit {
     });
     // Subscribe to route paramsMap to get the product category
     this.route.queryParamMap
-      .pipe(
-        filter((params) => params.has('category')),
-        takeUntilDestroyed(),
-      )
+      .pipe(filter((params) => params.has('category')))
       .subscribe((params) => {
         this.paramsCategory.set(params.get('category'));
       });

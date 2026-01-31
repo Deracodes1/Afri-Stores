@@ -13,7 +13,8 @@ import { ToastService } from '../../services/toast';
 export class Home implements OnInit {
   // Inject the service
   private productsService = inject(ProductsService);
-
+  // get the error message from the signal
+  productErrorMsg = this.productsService.productErrorMsg;
   // Loading state
   isLoading = signal(true);
   // injecting toast service for notifications
@@ -28,7 +29,7 @@ export class Home implements OnInit {
   // Listen to search changes
   private searchEffect = effect(() => {
     const term = this.productsService.searchTerm();
-    // don't run the effect(laoding skeletons) if search term is empty
+    // show the (laoding skeletons) if search term is falsy and deos not match any product
     if (!term) return;
     untracked(() => {
       this.isLoading.set(false);
@@ -36,12 +37,13 @@ export class Home implements OnInit {
 
     // show loading skeleton during search(search term is not empty)
     this.isLoading.set(true);
+    this.productErrorMsg.set('Try searching for something else');
     setTimeout(() => this.isLoading.set(false), 300);
   });
 
   ngOnInit(): void {
     this.isLoading.set(true);
-
+    this.productErrorMsg.set('please refresh page');
     this.productsService.getAllProducts().subscribe({
       next: (data) => {
         this.productsService.products.set(data);

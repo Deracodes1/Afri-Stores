@@ -9,6 +9,8 @@ import { ToastService } from './toast';
 export class ProductsService {
   // All products data
   products = signal<Product[]>([]);
+  // products error message
+  productErrorMsg = signal('');
   http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/products';
 
@@ -36,7 +38,8 @@ export class ProductsService {
       stock: productDto.stock,
       category: productDto.category || '',
 
-      // YOU must add these
+      // these are properties are patched up to make the object compatible with
+      // existing products
       images: [productDto.image],
       rating: 0,
       totalReviews: 0,
