@@ -105,8 +105,6 @@ export class AuthService {
    * Sign up a new user with smart name parsing
    */
   signUp(fullName: string, email: string, password: string) {
-    console.log('Signing up:', { fullName, email, password });
-
     // Parse the name intelligently
     const parsedName = this.parseName(fullName);
 

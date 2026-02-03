@@ -9,7 +9,6 @@ import { ProductCardComponent } from '../../components/product-card-component/pr
 import { getInitials } from '../../utils/string-utils';
 import { ToastService } from '../../services/toast';
 import { filter } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-product-detail',
