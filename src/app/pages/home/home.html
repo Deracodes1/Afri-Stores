@@ -1,32 +1,76 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <!-- Loading Skeletons -->
-  @if (isLoading()) {
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
-        <app-skeleton-product-card></app-skeleton-product-card>
+<!-- Loading State -->
+@if (loading$ | async) {
+  <div class="loading-container">
+    <div class="skeleton-grid">
+      @for (item of [1, 2, 3, 4, 5, 6, 7, 8]; track item) {
+        <app-skeleton-product-card />
       }
     </div>
-  }
+    <p class="loading-message">Loading products...</p>
+  </div>
+}
 
-  <!-- Real Products (when loaded) -->
-  @else if (filteredProducts().length > 0) {
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      @for (product of filteredProducts(); track product.id) {
-        <app-product-card-component
-          [product]="product"
-          [isSelectedState]="isProductSelected(product.id)"
-        >
-        </app-product-card-component>
-      }
+@if ((error$ | async) && !(loading$ | async)) {
+  <div class="error-container">
+    <div class="error-message">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="48"
+        height="48"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <h2>Oops! Something went wrong</h2>
+      <p class="error-text">{{ error$ | async }}</p>
+      <button (click)="retryLoadProducts()" class="retry-button">Try Again</button>
     </div>
-  }
+  </div>
+}
 
-  <!-- Empty State -->
-  @else {
-    <div class="text-center py-16">
-      <i class="fa-solid fa-magnifying-glass text-6xl text-gray-300 mb-4"></i>
-      <h3 class="text-2xl font-bold text-gray-600 mb-2">No products found</h3>
-      <p class="text-gray-500">{{ productErrorMsg() }}</p>
-    </div>
+@if (!(loading$ | async) && !(error$ | async)) {
+  @if (products$ | async; as products) {
+    @if (products.length === 0) {
+      <div class="empty-container">
+        <div class="empty-message">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="64"
+            height="64"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <h2>No Products Available</h2>
+          <p>We couldn't find any products at the moment. Please check back later!</p>
+        </div>
+      </div>
+    } @else {
+      <div class="products-container">
+        <div class="products-grid">
+          @for (product of products; track product.id) {
+            <app-product-card-component
+              [product]="product"
+              [isSelected]="isProductInCart(product.id) | async"
+              (toggleSelection)="toggleProductInCart(product)"
+            />
+          }
+        </div>
+      </div>
+    }
   }
-</div>
+}

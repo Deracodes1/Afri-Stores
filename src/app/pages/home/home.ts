@@ -1,59 +1,80 @@
-import { Component, inject, OnInit, signal, effect, untracked } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ProductsService } from '../../services/products';
+import { StateService } from '../../services/state.service.ts';
 import { ProductCardComponent } from '../../components/product-card-component/product-card-component';
 import { SkeletonProductCard } from '../../components/skeleton-product-card/skeleton-product-card';
 import { ToastService } from '../../services/toast';
+import { Observable } from 'rxjs';
+import { Product } from '../../models/products.model';
 
 @Component({
   selector: 'app-home',
-  imports: [ProductCardComponent, SkeletonProductCard],
+  standalone: true,
+  imports: [ProductCardComponent, SkeletonProductCard, CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
-  // Inject the service
   private productsService = inject(ProductsService);
-  // get the error message from the signal
-  productErrorMsg = this.productsService.productErrorMsg;
-  // Loading state
-  isLoading = signal(true);
-  // injecting toast service for notifications
-  toastService = inject(ToastService);
-  // Expose service data to template
-  filteredProducts = this.productsService.filteredProducts;
+  private stateService = inject(StateService);
+  private toastService = inject(ToastService);
 
-  // Check if product is selected
-  isProductSelected(productId: number): boolean {
-    return this.productsService.isProductSelected(productId);
-  }
-  // Listen to search changes
-  private searchEffect = effect(() => {
-    const term = this.productsService.searchTerm();
-    // show the (laoding skeletons) if search term is falsy and deos not match any product
-    if (!term) return;
-    untracked(() => {
-      this.isLoading.set(false);
-    });
-
-    // show loading skeleton during search(search term is not empty)
-    this.isLoading.set(true);
-    this.productErrorMsg.set('Try searching for something else');
-    setTimeout(() => this.isLoading.set(false), 300);
-  });
+  // Observables from StateService - use with async pipe in template
+  products$: Observable<Product[]> = this.stateService.products$;
+  loading$: Observable<boolean> = this.stateService.loading$;
+  error$: Observable<string | null> = this.stateService.error$;
+  cart$: Observable<Product[]> = this.stateService.cart$;
 
   ngOnInit(): void {
-    this.isLoading.set(true);
-    this.productErrorMsg.set('please refresh page');
+    // Set loading to true
+    this.stateService.setLoading(true);
+    this.stateService.clearError();
+
+    // Fetch products from API
     this.productsService.getAllProducts().subscribe({
       next: (data) => {
-        this.productsService.products.set(data);
-        setTimeout(() => this.isLoading.set(false), 1500);
+        this.stateService.setProducts(data);
+        this.stateService.setLoading(false);
+        this.toastService.success('Products loaded successfully!');
       },
-      error: (err) => {
-        this.toastService.error(`Error fetching products: ${err.message}`);
-        console.error('Error fetching products:', err);
-        this.isLoading.set(false);
+      error: (errorMessage: string) => {
+        // errorMessage is already user-friendly from ErrorHandlerService
+        this.stateService.setError(errorMessage);
+        this.stateService.setLoading(false);
+        this.toastService.error(errorMessage);
       },
     });
+  }
+
+  /**
+   * Check if product is in cart - returns Observable
+   */
+  isProductInCart(productId: number): Observable<boolean> {
+    return this.stateService.isInCart$(productId);
+  }
+
+  /**
+   * Toggle product in cart
+   */
+  toggleProductInCart(product: Product): void {
+    // Check current cart state
+    const currentCart = this.stateService.getStateSnapshot().cart;
+    const isInCart = currentCart.some((p) => p.id === product.id);
+
+    if (isInCart) {
+      this.stateService.removeFromCart(product.id);
+      this.toastService.info(`${product.name} removed from cart`);
+    } else {
+      this.stateService.addToCart(product);
+      this.toastService.success(`${product.name} added to cart!`);
+    }
+  }
+
+  /**
+   * Retry loading products
+   */
+  retryLoadProducts(): void {
+    this.ngOnInit();
   }
 }

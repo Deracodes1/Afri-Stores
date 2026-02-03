@@ -1,32 +1,34 @@
-import { Component, input, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { ProductsService } from '../../services/products';
-import { SearchInputComponent } from '../search-input-component/search-input-component';
-import { AuthService } from '../../services/auth';
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { StateService } from '../../services/state.service.ts';
+import { Observable } from 'rxjs';
+import { SearchInputComponent } from "../search-input-component/search-input-component";
+
 @Component({
-  selector: 'app-navbar-component',
-  imports: [SearchInputComponent, RouterLink],
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [CommonModule, RouterModule, SearchInputComponent],
   templateUrl: './navbar-component.html',
-  styleUrl: './navbar-component.css',
+  styleUrls: ['./navbar-component.css'],
 })
 export class NavbarComponent {
-  title = input('');
-  // Inject the service
-  private productsService = inject(ProductsService);
-  private authService = inject(AuthService);
+  private stateService = inject(StateService);
 
-  // checks if user is logged in
-  isLoggedIn = this.authService.isLoggedIn;
-  // get the cart count from the inject product service
-  cartCount = this.productsService.NumOfSelectedProducts;
+  // App title
+  title = signal('ShopHub');
+
   // Mobile menu state
   mobileMenuOpen = signal(false);
 
-  toggleMobileMenu() {
-    this.mobileMenuOpen.set(!this.mobileMenuOpen());
+  // Cart count from StateService - Observable
+  cartCount$: Observable<number> = this.stateService.cartItemCount$;
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen.update((value) => !value);
   }
 
-  closeMobileMenu() {
+  closeMobileMenu(): void {
     this.mobileMenuOpen.set(false);
   }
 }

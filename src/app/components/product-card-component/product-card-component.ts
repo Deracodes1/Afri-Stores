@@ -2,6 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { Product } from '../../models/products.model';
 import { Router } from '@angular/router';
 import { ProductsService } from '../../services/products';
+import { StateService } from '../../services/state.service.ts';
 @Component({
   selector: 'app-product-card-component',
   imports: [],
@@ -11,13 +12,14 @@ import { ProductsService } from '../../services/products';
 export class ProductCardComponent {
   product = input.required<Product>();
   router = inject(Router);
+  stateService = inject(StateService);
   productService = inject(ProductsService);
-  isSelectedState = input<boolean>();
+  isSelected = input<boolean | null>();
   // Handle add to cart click from product card
   AddToCart(event: MouseEvent, product: Product) {
     event.stopImmediatePropagation();
     const productWithQuantity = { ...product, quantity: 1 };
-    this.productService.updateSelectedProductsArray(productWithQuantity);
+    this.stateService.addProduct(productWithQuantity);
   }
   openProductPage() {
     this.router.navigate(['/product', this.product().id], {

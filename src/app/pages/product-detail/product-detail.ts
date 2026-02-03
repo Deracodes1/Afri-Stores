@@ -9,7 +9,7 @@ import { ProductCardComponent } from '../../components/product-card-component/pr
 import { getInitials } from '../../utils/string-utils';
 import { ToastService } from '../../services/toast';
 import { filter } from 'rxjs';
-
+import { StateService } from '../../services/state.service.ts';
 @Component({
   selector: 'app-product-detail',
   standalone: true,
@@ -27,6 +27,7 @@ export class ProductDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private productsService = inject(ProductsService);
+  private StateService = inject(StateService);
   private toastService = inject(ToastService);
   // the product category extracted from the query params map
   paramsCategory = signal<string | null>('');
@@ -93,9 +94,9 @@ export class ProductDetailComponent implements OnInit {
         this.quantity.set(1);
         this.isLoading.set(false);
 
-        // Load related products
-        const related = this.productsService.getRelatedProducts(data.id, 4);
-        this.relatedProducts.set(related);
+        // // Load related products
+        // const related = this.productsService.getRelatedProducts(data.id, 4);
+        // this.relatedProducts.set(related);
       },
       error: (err) => {
         console.error('Error fetching product:', err);
@@ -113,10 +114,10 @@ export class ProductDetailComponent implements OnInit {
     this.mainImage.set(imageUrl);
   }
 
-  // Check if product is selected
-  isProductSelected(productId: number): boolean {
-    return this.productsService.isProductSelected(productId);
-  }
+  // // Check if product is selected
+  // isProductSelected(productId: number): boolean {
+  //   return this.productsService.isProductSelected(productId);
+  // }
 
   /**
    * Increase quantity
@@ -145,7 +146,7 @@ export class ProductDetailComponent implements OnInit {
     if (prod) {
       // Add product with selected quantity
       const productWithQuantity = { ...prod, quantity: this.quantity() };
-      this.productsService.updateSelectedProductsArray(productWithQuantity);
+      this.StateService.addToCart(productWithQuantity);
     }
   }
 
@@ -187,10 +188,10 @@ export class ProductDetailComponent implements OnInit {
   /**
    * Check if product is in cart
    */
-  isInCart(): boolean {
-    const prod = this.product();
-    return prod ? this.productsService.isProductSelected(prod.id) : false;
-  }
+  // isInCart(): boolean {
+  //   const prod = this.product();
+  //   return prod ? this.productsService.isProductSelected(prod.id) : false;
+  // }
   // ngOnDestroy(): void {
   //   this.paramsCategory;
   // }

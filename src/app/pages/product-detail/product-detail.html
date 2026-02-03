@@ -191,7 +191,6 @@
             class="w-full bg-amber-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-amber-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
           >
             <i class="fa-solid fa-cart-shopping text-xl"></i>
-            <span>{{ isInCart() ? 'Update Cart' : 'Add to Cart' }}</span>
           </button>
 
           <!-- Additional Info -->
@@ -318,11 +317,7 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           @for (relatedProduct of relatedProducts(); track relatedProduct.id) {
-            <app-product-card-component
-              [product]="relatedProduct"
-              [isSelectedState]="isProductSelected(relatedProduct.id)"
-            >
-            </app-product-card-component>
+            <app-product-card-component [product]="relatedProduct"> </app-product-card-component>
           }
         </div>
       </div>

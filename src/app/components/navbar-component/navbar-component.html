@@ -58,6 +58,7 @@
         >
           <i class="fa-solid fa-user text-xl md:text-2xl text-gray-700 cursor-pointer"></i>
         </button>
+
         <!-- Cart Icon with Badge -->
         <button
           routerLink="cart"
@@ -66,12 +67,14 @@
           <i
             class="fa-solid fa-cart-shopping text-xl md:text-2xl text-amber-700 cursor-pointer"
           ></i>
-          @if (cartCount()! > 0) {
-            <span
-              class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
-            >
-              {{ cartCount() }}
-            </span>
+          @if (cartCount$ | async; as count) {
+            @if (count > 0) {
+              <span
+                class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+              >
+                {{ count }}
+              </span>
+            }
           }
         </button>
 
