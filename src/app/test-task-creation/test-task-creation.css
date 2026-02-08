@@ -1,0 +1,17 @@
+input {
+  border: 1px solid black;
+  outline: none;
+  padding: 0.5rem;
+}
+.input-divs {
+  margin-top: 1.5rem;
+}
+label {
+  margin-right: 10px;
+}
+button {
+  background-color: blueviolet;
+  border-radius: 5px;
+  padding: 2px 5px;
+  cursor: pointer;
+}

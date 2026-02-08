@@ -42,18 +42,25 @@ export class Home implements OnInit {
   });
 
   ngOnInit(): void {
+    this.initialLoad();
+  }
+  initialLoad() {
     this.isLoading.set(true);
     this.productErrorMsg.set('please refresh page');
     this.productsService.getAllProducts().subscribe({
       next: (data) => {
         this.productsService.products.set(data);
-        setTimeout(() => this.isLoading.set(false), 1500);
+        this.isLoading.set(false);
+        this.toastService.success('Products loaded successfully!');
       },
       error: (err) => {
-        this.toastService.error(`Error fetching products: ${err.message}`);
-        console.error('Error fetching products:', err);
+        this.toastService.error(err);
         this.isLoading.set(false);
+        this.productErrorMsg.set(err);
       },
     });
+  }
+  retryLoadProducts(): void {
+    this.initialLoad();
   }
 }

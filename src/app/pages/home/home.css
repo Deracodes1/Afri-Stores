@@ -1,1 +1,25 @@
+.loading-message {
+  color: #666;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.retry-button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+}
+.retry-button:hover {
+  background-color: #2563eb;
+}
 
+.retry-button:active {
+  transform: scale(0.98);
+}

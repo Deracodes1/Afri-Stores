@@ -9,7 +9,7 @@ import { ToastService } from '../../services/toast';
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, RouterModule, RouterOutlet],
   templateUrl: './user-account.html',
   styleUrls: ['./user-account.css'],
 })

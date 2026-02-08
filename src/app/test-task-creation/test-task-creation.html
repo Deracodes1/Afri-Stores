@@ -1,0 +1,13 @@
+<div>
+  <p>Create your tasks here</p>
+
+  <div class="input-divs">
+    <label for="task-name">task-name</label>
+    <input type="text" id="task-name" placeholder="e.g wash plates" [(ngModel)]="taskName" />
+  </div>
+  <div class="input-divs">
+    <label for="task-desc">task-desc</label>
+    <input type="text" id="task-desc" [(ngModel)]="taskDescription" />
+  </div>
+  <button (click)="createTask()" type="button">Submit</button>
+</div>

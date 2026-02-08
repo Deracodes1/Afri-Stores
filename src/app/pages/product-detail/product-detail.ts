@@ -13,13 +13,7 @@ import { filter } from 'rxjs';
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    StarRatingComponent,
-    RelativeTimePipe,
-    ProductCardComponent,
-  ],
+  imports: [RouterModule, StarRatingComponent, RelativeTimePipe, ProductCardComponent],
   templateUrl: './product-detail.html',
   styleUrls: ['./product-detail.css'],
 })
@@ -98,7 +92,7 @@ export class ProductDetailComponent implements OnInit {
         this.relatedProducts.set(related);
       },
       error: (err) => {
-        console.error('Error fetching product:', err);
+        this.toastService.error(err);
         this.isLoading.set(false);
         // Product not found - redirect to 404
         this.router.navigate(['/404']);

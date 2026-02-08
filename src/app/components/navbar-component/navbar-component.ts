@@ -17,7 +17,7 @@ export class NavbarComponent {
 
   // checks if user is logged in
   isLoggedIn = this.authService.isLoggedIn;
-  // get the cart count from the inject product service
+  // get the cart count from the injected product service
   cartCount = this.productsService.NumOfSelectedProducts;
   // Mobile menu state
   mobileMenuOpen = signal(false);

@@ -26,7 +26,7 @@ export const routes: Routes = [
     path: 'account',
     loadComponent: () => import('./pages/user-account/user-account').then((m) => m.UserAccount),
     canActivate: [authGuard], // this authguard protects the route
-    canActivateChild: [userAccountRoutesGuard],
+    canActivateChild: [userAccountRoutesGuard], // this protects the route
     children: [
       {
         path: '',
