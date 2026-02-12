@@ -12,6 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'cart',
+    canActivate: [authGuard],
     loadComponent: () => import('./pages/cart/cart').then((m) => m.Cart),
   },
   {
@@ -67,6 +68,7 @@ export const routes: Routes = [
   },
   {
     path: 'product/:id',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./pages/product-detail/product-detail').then((m) => m.ProductDetailComponent),
   },
@@ -77,6 +79,7 @@ export const routes: Routes = [
   // }
   {
     path: 'createproduct',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./pages/createproduct/createproduct').then((m) => m.CreateProductComponent),
   },

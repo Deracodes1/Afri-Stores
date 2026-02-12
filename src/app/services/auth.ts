@@ -2,6 +2,8 @@ import { Injectable, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { User, Order, Address } from '../models/user.model';
 import { ToastService } from './toast';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -10,8 +12,8 @@ export class AuthService {
   toastService = inject(ToastService); // importing the toast service for sending notifactions
   companyName = 'Afri Mega Stores';
   private currentUser = signal<User | null>(null);
-  isLoggedIn = signal<boolean>(false);
-
+  authenticatedState = new BehaviorSubject<boolean>(false);
+  isauthenticatedState$ = this.authenticatedState.asObservable();
   private addresses = signal<Address[]>([
     {
       id: 1,
@@ -58,7 +60,7 @@ export class AuthService {
 
     if (token && userJson) {
       this.currentUser.set(JSON.parse(userJson));
-      this.isLoggedIn.set(true);
+      this.authenticatedState.next(true);
     }
   }
 
@@ -133,7 +135,7 @@ export class AuthService {
 
     // Update state
     this.currentUser.set(newUser);
-    this.isLoggedIn.set(true);
+    this.authenticatedState.next(true);
 
     // Redirect to home
     this.router.navigate(['/home']);
@@ -165,12 +167,12 @@ export class AuthService {
       totalReviews: 12,
     };
 
-    const mockToken = 'mock-jwt-token-' + Date.now();
-    localStorage.setItem('authToken', mockToken);
+    const userEmailasMockToken = user.email;
+    localStorage.setItem('authToken', userEmailasMockToken);
     localStorage.setItem('currentUser', JSON.stringify(user));
 
     this.currentUser.set(user);
-    this.isLoggedIn.set(true);
+    this.authenticatedState.next(true);
     this.toastService.success(`Welcome back, ${user.firstName}!`);
     this.router.navigate(['/home']);
 
@@ -182,7 +184,7 @@ export class AuthService {
     localStorage.removeItem('currentUser');
 
     this.currentUser.set(null);
-    this.isLoggedIn.set(false);
+    this.authenticatedState.next(false);
     this.toastService.info('You have been logged out');
     this.router.navigate(['/login']);
   }
@@ -190,7 +192,9 @@ export class AuthService {
   getCurrentUser(): User | null {
     return this.currentUser();
   }
-
+  get isLoggedIn(): boolean {
+    return this.authenticatedState.value;
+  }
   /**
    * Update user profile
    */
