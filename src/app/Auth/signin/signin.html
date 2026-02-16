@@ -46,9 +46,9 @@
 
       <!-- Error Message -->
       @if (errorMessage()) {
-      <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-        <p class="text-red-600 text-sm">{{ errorMessage() }}</p>
-      </div>
+        <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p class="text-red-600 text-sm">{{ errorMessage() }}</p>
+        </div>
       }
 
       <!-- Sign In Form -->
@@ -71,9 +71,10 @@
 
           <!-- Email Validation Errors -->
           @if (hasError('email', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Email is required</p>
-          } @if (hasError('email', 'email') && !hasError('email', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Please enter a valid email</p>
+            <p class="text-red-500 text-xs mt-1">Email is required</p>
+          }
+          @if (hasError('email', 'email') && !hasError('email', 'required')) {
+            <p class="text-red-500 text-xs mt-1">Please enter a valid email</p>
           }
         </div>
 
@@ -101,9 +102,10 @@
 
           <!-- Password Validation Errors -->
           @if (hasError('password', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Password is required</p>
-          } @if (hasError('password', 'minlength') && !hasError('password', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Password must be at least 6 characters</p>
+            <p class="text-red-500 text-xs mt-1">Password is required</p>
+          }
+          @if (hasError('password', 'minlength') && !hasError('password', 'required')) {
+            <p class="text-red-500 text-xs mt-1">Password must be at least 6 characters</p>
           }
         </div>
 
@@ -124,11 +126,11 @@
           class="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors duration-200 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           @if (isLoading()) {
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <span>Signing in...</span>
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <span>Signing in...</span>
           } @else {
-          <span>Sign In</span>
-          <i class="fa-solid fa-arrow-right"></i>
+            <span>Sign In</span>
+            <i class="fa-solid fa-arrow-right"></i>
           }
         </button>
       </form>
