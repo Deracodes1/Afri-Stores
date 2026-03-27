@@ -51,6 +51,7 @@ export class UserAccount implements OnInit {
     // Add a small delay to ensure user data is ready
 
     this.loadUserData();
+    alert(this.router.url);
   }
 
   /**

@@ -63,9 +63,9 @@
 
       <!-- Error Message -->
       @if (errorMessage()) {
-      <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-        <p class="text-red-600 text-sm">{{ errorMessage() }}</p>
-      </div>
+        <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p class="text-red-600 text-sm">{{ errorMessage() }}</p>
+        </div>
       }
 
       <!-- Sign Up Form -->
@@ -84,9 +84,10 @@
           />
 
           @if (hasError('fullName', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Full name is required</p>
-          } @if (hasError('fullName', 'minlength') && !hasError('fullName', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Name must be at least 2 characters</p>
+            <p class="text-red-500 text-xs mt-1">Full name is required</p>
+          }
+          @if (hasError('fullName', 'minlength') && !hasError('fullName', 'required')) {
+            <p class="text-red-500 text-xs mt-1">Name must be at least 2 characters</p>
           }
         </div>
 
@@ -102,9 +103,10 @@
           />
 
           @if (hasError('email', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Email is required</p>
-          } @if (hasError('email', 'email') && !hasError('email', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Please enter a valid email</p>
+            <p class="text-red-500 text-xs mt-1">Email is required</p>
+          }
+          @if (hasError('email', 'email') && !hasError('email', 'required')) {
+            <p class="text-red-500 text-xs mt-1">Please enter a valid email</p>
           }
         </div>
 
@@ -133,12 +135,17 @@
           </div>
 
           @if (hasError('password', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Password is required</p>
-          } @if (hasError('password', 'minlength') && !hasError('password', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Password must be at least 8 characters</p>
-          } @if (hasError('password', 'pattern') && !hasError('password', 'required') &&
-          !hasError('password', 'minlength')) {
-          <p class="text-red-500 text-xs mt-1">Must include uppercase, lowercase, and number</p>
+            <p class="text-red-500 text-xs mt-1">Password is required</p>
+          }
+          @if (hasError('password', 'minlength') && !hasError('password', 'required')) {
+            <p class="text-red-500 text-xs mt-1">Password must be at least 8 characters</p>
+          }
+          @if (
+            hasError('password', 'pattern') &&
+            !hasError('password', 'required') &&
+            !hasError('password', 'minlength')
+          ) {
+            <p class="text-red-500 text-xs mt-1">Must include uppercase, lowercase, and number</p>
           }
         </div>
 
@@ -154,9 +161,10 @@
           />
 
           @if (hasError('confirmPassword', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Please confirm your password</p>
-          } @if (passwordMismatch && !hasError('confirmPassword', 'required')) {
-          <p class="text-red-500 text-xs mt-1">Passwords do not match</p>
+            <p class="text-red-500 text-xs mt-1">Please confirm your password</p>
+          }
+          @if (passwordMismatch && !hasError('confirmPassword', 'required')) {
+            <p class="text-red-500 text-xs mt-1">Passwords do not match</p>
           }
         </div>
 
@@ -178,7 +186,7 @@
           </label>
         </div>
         @if (hasError('agreeToTerms', 'required')) {
-        <p class="text-red-500 text-xs">You must agree to the terms</p>
+          <p class="text-red-500 text-xs">You must agree to the terms</p>
         }
 
         <!-- Submit Button -->
@@ -188,10 +196,10 @@
           class="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors duration-200 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           @if (isLoading()) {
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <span>Creating account...</span>
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <span>Creating account...</span>
           } @else {
-          <span>Join the Market</span>
+            <span>Join the Market</span>
           }
         </button>
       </form>

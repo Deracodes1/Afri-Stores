@@ -1,4 +1,4 @@
-import { Component, inject, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, signal } from '@angular/core';
 import { ProductsService } from '../../services/products';
 import { Product } from '../../models/products.model';
 import { Router } from '@angular/router';
@@ -30,6 +30,7 @@ export class Cart {
 
   ngOnInit() {
     this.loadCart();
+    alert(this.router.url);
   }
 
   loadCart() {

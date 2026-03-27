@@ -52,6 +52,7 @@ export class Home implements OnInit {
         this.productsService.products.set(data);
         this.isLoading.set(false);
         this.toastService.success('Products loaded successfully!');
+        console.log(data);
       },
       error: (err) => {
         this.toastService.error(err);

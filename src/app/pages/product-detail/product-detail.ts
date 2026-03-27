@@ -61,7 +61,7 @@ export class ProductDetailComponent implements OnInit {
   getProductIdAndQueryParams() {
     // Subscribe to route params to get the product ID
     this.route.params.subscribe((params) => {
-      const id = Number(params['id']);
+      const id = params['id'];
       this.loadProduct(id);
     });
     // Subscribe to route paramsMap to get the product category

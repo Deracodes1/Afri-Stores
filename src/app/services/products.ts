@@ -1,10 +1,11 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { Product, CreateProductDto } from '../models/products.model';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from './toast';
 import { catchError } from 'rxjs';
 import { ErrorHandlerService } from './error-handler-service';
+import { ApiResponse } from '../models/api-response';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,13 +16,14 @@ export class ProductsService {
   productErrorMsg = signal('');
   errorHandler = inject(ErrorHandlerService);
   http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/products';
+  private apiUrl = 'http://localhost:3000/api/v1/product';
 
   // Get all products
   getAllProducts(): Observable<Product[]> {
-    return this.http
-      .get<Product[]>(this.apiUrl)
-      .pipe(catchError((error) => this.errorHandler.handleError(error)));
+    return this.http.get<ApiResponse<Product[]>>(this.apiUrl).pipe(
+      map((response) => response.data),
+      catchError((error) => this.errorHandler.handleError(error)),
+    );
   }
 
   // Get single product by ID
