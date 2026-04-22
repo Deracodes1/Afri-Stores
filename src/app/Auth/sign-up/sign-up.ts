@@ -74,6 +74,7 @@ export class Signup {
     this.showPassword.set(!this.showPassword());
   }
 
+  // sign-up.component.ts
   onSubmit() {
     this.signupForm.markAllAsTouched();
 
@@ -83,15 +84,19 @@ export class Signup {
 
       const { fullName, email, password } = this.signupForm.value;
 
-      setTimeout(() => {
-        const result = this.authService.signUp(fullName, email, password);
-
-        this.isLoading.set(false);
-
-        if (!result.success) {
-          this.errorMessage.set(result.message);
-        }
-      }, 1000);
+      this.authService.signUp(fullName, email, password).subscribe({
+        next: (response) => {
+          this.isLoading.set(false);
+          if (response.data && response.data.access_token) {
+            this.router.navigate(['/home']);
+          }
+        },
+        error: (err) => {
+          this.isLoading.set(false);
+          const msg = err.error?.message || 'Signup failed';
+          this.errorMessage.set(Array.isArray(msg) ? msg[0] : msg);
+        },
+      });
     }
   }
 

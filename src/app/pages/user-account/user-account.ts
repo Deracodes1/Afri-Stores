@@ -59,7 +59,10 @@ export class UserAccount implements OnInit {
    */
 
   loadUserData() {
-    this.addresses.set(this.authService.getAddresses());
+    this.authService.getAddresses().subscribe({
+      next: (data) => this.addresses.set(data),
+      error: (err) => console.error('Could not load addresses', err),
+    });
   }
 
   /**

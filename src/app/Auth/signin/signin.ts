@@ -56,30 +56,29 @@ export class Signin {
   }
 
   /**
-   * Handle form submission
+   * Handle form submission - Real Backend Integration
    */
   onSubmit() {
-    // Mark all fields as touched to show validation errors
     this.signinForm.markAllAsTouched();
 
-    // Only proceed if form is valid
     if (this.signinForm.valid) {
       this.isLoading.set(true);
       this.errorMessage.set('');
 
       const { email, password } = this.signinForm.value;
 
-      // Simulate API delay
-      setTimeout(() => {
-        const result = this.authService.signIn(email, password);
-
-        this.isLoading.set(false);
-
-        if (!result.success) {
-          this.errorMessage.set(result.message);
-        }
-        // If successful, AuthService handles redirect
-      }, 1000);
+      this.authService.signIn(email, password).subscribe({
+        next: (response) => {
+          // Success! AuthService handles the token storage and navigation via tap()
+          this.isLoading.set(false);
+          console.log('Login successful');
+        },
+        error: (err) => {
+          this.isLoading.set(false);
+          const message = err.error?.message || 'Unable to connect to the server';
+          this.errorMessage.set(message);
+        },
+      });
     }
   }
 

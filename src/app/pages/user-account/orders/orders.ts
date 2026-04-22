@@ -14,7 +14,10 @@ export class Orders implements OnInit {
     this.loadUserData();
   }
   loadUserData() {
-    this.orders.set(this.authService.getOrders());
+    this.authService.getOrders().subscribe({
+      next: (data) => this.orders.set(data),
+      error: (err) => console.error('Could not load orders', err),
+    });
   }
   /**
    * Get status badge color
