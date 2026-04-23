@@ -77,6 +77,7 @@ export const routes: Routes = [
   // }
   {
     path: 'createproduct',
+    // canActivate: [authGuard], // this authguard protects the route
     loadComponent: () =>
       import('./pages/createproduct/createproduct').then((m) => m.CreateProductComponent),
   },

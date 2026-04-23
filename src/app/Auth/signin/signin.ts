@@ -71,6 +71,7 @@ export class Signin {
         next: (response) => {
           // Success! AuthService handles the token storage and navigation via tap()
           this.isLoading.set(false);
+          this.router.navigate(['/home']);
           console.log('Login successful');
         },
         error: (err) => {

@@ -6,6 +6,7 @@ import { ToastService } from './toast';
 import { catchError } from 'rxjs';
 import { ErrorHandlerService } from './error-handler-service';
 import { ApiResponse } from '../models/api-response';
+import { environment } from '../../Environments/environment';
 @Injectable({
   providedIn: 'root',
 })
@@ -16,48 +17,42 @@ export class ProductsService {
   productErrorMsg = signal('');
   errorHandler = inject(ErrorHandlerService);
   http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/v1/product';
+  private apiUrl = `${environment.apiUrl}`;
 
   // Get all products
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<ApiResponse<Product[]>>(this.apiUrl).pipe(
+    return this.http.get<ApiResponse<Product[]>>(`${this.apiUrl}/product`).pipe(
       map((response) => response.data),
       catchError((error) => this.errorHandler.handleError(error)),
     );
   }
 
+  getCategories(): Observable<any[]> {
+    return this.http.get<any>(`${this.apiUrl}/categories`).pipe(map((response) => response.data));
+  }
   // Get single product by ID
   getProductById(id: number): Observable<Product> {
     return this.http
       .get<Product>(`${this.apiUrl}/${id}`)
       .pipe(catchError((error: HttpErrorResponse) => this.errorHandler.handleError(error)));
   }
+  createProduct(payload: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/product`, payload);
+  }
 
-  //  For adding products to the DB
-  addProduct(productDto: CreateProductDto): Observable<Product> {
-    const fullProduct: Omit<Product, 'id'> = {
-      // From DTO object gotten from the product creation page i am patching up some data that was
-      // not asked for when creating a new product but is needed to post to the db inorder to
-      //  match other existing properties.
+  addProduct(productDto: any): Observable<any> {
+    const cleanPayload = {
       name: productDto.name,
       description: productDto.description,
       price: productDto.price,
-      image: productDto.image,
-      inStock: productDto.inStock,
       stock: productDto.stock,
-      category: productDto.category || '',
-
-      // these are properties are patched up to make the object compatible with
-      // existing products
-      images: [productDto.image],
-      rating: 0,
-      totalReviews: 0,
-      reviews: [],
+      image: productDto.image,
+      categoryId: productDto.categoryId,
     };
 
-    return this.http.post<Product>(this.apiUrl, fullProduct);
+    // Fix: Added '/products' to the end of the URL
+    return this.http.post<any>(`${this.apiUrl}/product`, cleanPayload);
   }
-
   // // method for Updating product
   // updateProduct(id: number, product: Product): Observable<Product> {
   //   return this.http.put<Product>(`${this.apiUrl}/${id}`, product);

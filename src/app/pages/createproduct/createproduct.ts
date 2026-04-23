@@ -15,6 +15,7 @@ import { ToastService } from '../../services/toast';
 })
 export class CreateProductComponent implements OnInit {
   productForm!: FormGroup;
+  categories = signal<any[]>([]); // To store categories from DB
   isSubmitting = signal(false);
   submitError = signal<string | null>(null);
   successfullMessage = signal<string | null>(null);
@@ -26,6 +27,13 @@ export class CreateProductComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.isProuductInStock();
+    this.productService.getCategories().subscribe({
+      next: (res: any) => {
+        const categoryArray = res.data || res;
+        this.categories.set(categoryArray);
+      },
+      error: (err) => console.error('Failed to load categories', err),
+    });
   }
 
   private initForm(): void {
@@ -37,10 +45,10 @@ export class CreateProductComponent implements OnInit {
       image: ['', [Validators.required, Validators.pattern(/^https?:\/\/.+/)]],
       inStock: [true, Validators.required],
       stock: [0, [Validators.required, Validators.min(0)]],
-      properties: this.fb.array([], [Validators.required, Validators.minLength(1)]), // Dynamic properties array
+      categoryId: ['', [Validators.required]],
+      properties: this.fb.array([]), // Dynamic properties array
     });
   }
-
   // Getter for properties FormArray
   get properties(): FormArray {
     return this.productForm.get('properties') as FormArray;
@@ -146,7 +154,7 @@ export class CreateProductComponent implements OnInit {
       image: this.productForm.get('image')?.value,
       inStock: this.productForm.get('inStock')?.value,
       stock: this.productForm.get('stock')?.value || 0,
-      category: this.productForm.get('category')?.value || 'Electronics',
+      category: this.productForm.get('categoryId')?.value || 'Electronics',
       properties: this.properties.value,
     };
   }
@@ -164,46 +172,47 @@ export class CreateProductComponent implements OnInit {
         group.get(key)?.markAsTouched();
       });
     });
+
     if (this.productForm.invalid) {
       this.submitError.set('Please fix the errors above before submitting');
       return;
     }
-    if (this.properties.invalid) {
-      this.submitError.set('Please, you need to add at least one property');
-      return;
-    }
+
+    //  check if properties array has at least one entry
+    // if (this.properties.length === 0) {
+    //   this.submitError.set('Please, you need to add at least one property');
+    //   return;
+    // }
 
     this.isSubmitting.set(true);
     this.submitError.set(null);
 
-    // Prepare product data using CreateProductDto model
+    // Prepare data: Mapping categoryId from the dropdown and including properties
     const formValue = this.productForm.value;
-    const productData: CreateProductDto = {
+
+    const productData = {
       name: formValue.name,
       description: formValue.description,
-      price: formValue.price,
+      price: Number(formValue.price),
+      stock: Number(formValue.stock),
       image: formValue.image,
-      inStock: formValue.inStock,
-      stock: formValue.stock,
-      category: formValue.category || undefined,
+      categoryId: formValue.categoryId,
     };
 
-    // Calling the addproduct method in the product service to
-    // add the newly created product to the DB
     this.productService.addProduct(productData).subscribe({
-      next: (createdProduct: Product) => {
+      next: (createdProduct: any) => {
         console.log('Product created successfully:', createdProduct);
-        // show success message and Navigate back to products list(home page)
         this.ToastService.info('Product created successfully');
         this.successfullMessage.set('Product created successfully');
+
         setTimeout(() => {
           this.router.navigate(['/home']);
         }, 1000);
       },
       error: (error) => {
-        // console.error('Error creating product:', error);
-        this.submitError.set('Failed to create product. Please try again.');
-        this.ToastService.error('Product created successfully');
+        console.error('Backend Error:', error);
+        this.submitError.set(error.error?.message || 'Failed to create product. Please try again.');
+        this.ToastService.error('Error creating product');
         this.isSubmitting.set(false);
       },
       complete: () => {
