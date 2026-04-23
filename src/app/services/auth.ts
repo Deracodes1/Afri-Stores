@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   /**
-   * REAL Sign Up: Hits NestJS /auth/signup
+   * REAL Sign Up: Hits NestJS /auth/register
    */
   signUp(fullName: string, email: string, password: string): Observable<any> {
     const { firstName, lastName } = this.splitName(fullName);
@@ -68,7 +68,7 @@ export class AuthService {
   }
 
   /**
-   * REAL Sign In: Hits NestJS /auth/signin
+   * REAL Sign In: Hits NestJS /auth/login
    */
   signIn(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
