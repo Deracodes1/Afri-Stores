@@ -33,7 +33,7 @@ export class ProductsService {
   // Get single product by ID
   getProductById(id: number): Observable<Product> {
     return this.http
-      .get<Product>(`${this.apiUrl}/${id}`)
+      .get<Product>(`${this.apiUrl}/product/${id}`)
       .pipe(catchError((error: HttpErrorResponse) => this.errorHandler.handleError(error)));
   }
   createProduct(payload: any): Observable<any> {
